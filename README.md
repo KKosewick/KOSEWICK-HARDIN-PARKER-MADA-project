@@ -1,6 +1,6 @@
 # Overview
 
-A template file and folder structure for a data analysis project/paper done with R/Quarto/Github. 
+This is Kevin Kosewick and Emma Hardin-Parker's MADA project repository.
 
 # Pre-requisites
 
