@@ -12,7 +12,7 @@ bibliography: ../manuscript/dataanalysis-references.bib
 
 ---
 
-Project Part 1: This dataset was obtained from Kaggle.com and was created by Mark Otto and Andrew Fong at MIT. The set has 373 observations for 13 variables covering a broad spectrum associated with sleep and daily routine. 
+Project Part 1: This dataset was obtained from Kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data) and was created by Mark Otto and Andrew Fong at MIT. The set has 373 observations for 13 variables covering a broad spectrum associated with sleep and daily routine. 
 
 ```{r}
 #load in the data and check it out
