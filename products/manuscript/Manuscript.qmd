@@ -30,6 +30,142 @@ We can likely use GLMs and t-tests/ANOVA tests to see the significance that vari
 
 End of Project Part 1
 
+Project Part 2: 
+
+We'll include the data cleaning here in order to generate our plots in this document. Please see the eda.qmd file for full exploratory results and the cleaning process.
+
+```{r}
+#load cleaning tools
+library(tidyverse)
+# Splitting the Blood.Pressure variable into systolic and diastolic variable columns
+sleepdata <- sleepdata %>%
+  separate(Blood.Pressure, into = c("systolic", "diastolic"), sep = "/")
+
+# Ensuring that the new columns are considered numeric 
+sleepdata$systolic <- as.numeric(sleepdata$systolic)
+sleepdata$diastolic <- as.numeric(sleepdata$diastolic)
+
+# Creating new categorical variable 
+
+sleepdata <- sleepdata %>%
+  mutate(cat_bp = case_when(
+    systolic < 120 & diastolic < 80 ~ "Normal",
+    systolic >= 120 & systolic <= 129 & diastolic < 80 ~ "Elevated",
+    (systolic >= 130 & systolic <= 139) | (diastolic >= 80 & diastolic <= 89) ~ "Stage 1 Hypertension",
+    systolic >= 140 | diastolic >= 90 ~ "Stage 2 Hypertension"
+  ))
+# Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category
+
+sleepdata <- sleepdata %>%
+  mutate(BMI.Category = case_when(
+    BMI.Category %in% c("Normal", "Normal Weight") ~ "Normal",
+    BMI.Category == "Overweight" ~ "Overweight",
+    BMI.Category == "Obese" ~ "Obese",
+  ))
+```
+
+Here are the most interesting/distinct plots from the EDA: 
+
+Physical Activity plot:
+
+We can clearly see that Physical Activity level has a positive correlation with Quality of Sleep.
+```{r}
+#load plot package
+library(ggplot2)
+
+# Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"
+sleepdata$PhysicalActivityGroup <- cut(sleepdata$Physical.Activity.Level, breaks = c(0, 30, 60, Inf), labels = c("Low", "Medium", "High"))
+
+# Box plot for Quality of Sleep by Physical Activity Level Group
+ggplot(sleepdata, aes(x = PhysicalActivityGroup, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Quality of Sleep by Physical Activity Level Group", x = "Physical Activity Level Group", y = "Quality of Sleep")
+```
+
+Gender, Age, and Occupation:
+
+We can see some clear differences in self-reported Quality of Sleep between these different groups already.
+Females tend to report an average of 1 higher according to the boxplot.
+The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far.
+Our occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far.
+```{r}
+# Boxplot for Quality of Sleep by Gender
+ggplot(sleepdata, aes(x = Gender, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Quality of Sleep by Gender", x = "Gender", y = "Quality of Sleep")
+
+# Create bins for Age in order to create a clean boxplot.
+sleepdata$AgeGroup <- cut(sleepdata$Age, breaks = c(20, 30, 40, 50, 60), labels = c("20-30", "30-40", "40-50", "50-60"), include.lowest = TRUE)
+
+# Calculate mean Quality of Sleep for each Age Group to plot with means for cleaner visuals
+sleepdata_summary <- sleepdata %>%
+  group_by(AgeGroup) %>%
+  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Bar plot for Mean Quality of Sleep by Age Group with colorblind-friendly palette
+ggplot(sleepdata_summary, aes(x = AgeGroup, y = MeanQuality, fill = AgeGroup)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Mean Quality of Sleep by Age Group", x = "Age Group", y = "Mean Quality of Sleep")
+
+# Calculate mean Quality of Sleep for each Occupation in order to create a bar plot.
+sleepdata_summary <- sleepdata %>%
+  group_by(Occupation) %>%
+  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Bar plot for Mean Quality of Sleep by Occupation with manually specified colors
+ggplot(sleepdata_summary, aes(x = Occupation, y = MeanQuality, fill = Occupation)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = rainbow(length(unique(sleepdata_summary$Occupation)))) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Mean Quality of Sleep by Occupation", x = "Occupation", y = "Mean Quality of Sleep")
+```
+
+BMI:
+We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories. However, there are very few in the obese category, so conclusions with that group may not be as supported as others.
+
+```{r}
+# Box plot for Quality of Sleep by BMI Category
+ggplot(sleepdata, aes(x = BMI.Category, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Quality of Sleep by BMI Category", x = "BMI Category", y = "Quality of Sleep")
+```
+
+Blood Pressure:
+
+The boxplots look a bit strange for the Elevated and Normal levels, but we can see that it's likely due to a shortage of data for these categories. We can see, however, that Quality of Sleep does seem to be negatively correlated with increasing stages of hypertension.
+
+```{r}
+# Bar plot for cat_bp
+ggplot(sleepdata, aes(x = cat_bp)) +
+  geom_bar() +
+  labs(title = "Bar Plot of cat_bp", x = "cat_bp", y = "Count")
+
+# Box plot for Quality of Sleep by cat_bp
+ggplot(sleepdata, aes(x = cat_bp, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Quality of Sleep by cat_bp", x = "cat_bp", y = "Quality of Sleep")
+
+```
+
+And Stress Level:
+Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep. However, this is a subjective scale, so data should be taken with a grain of salt for now.
+
+```{r}
+# Scatterplot for Quality of Sleep by Stress Level
+ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  labs(title = "Quality of Sleep by Stress Level", x = "Stress Level (scale: 1-10)", y = "Quality of Sleep")
+```
+
+The other plots were either self explanatory (e.g. Sleep Duration meant higher sleep quality) or had less defined trends (e.g. heart rate and daily steps).
+
+End of Project Part 2
+
+
+
+
 
 
 

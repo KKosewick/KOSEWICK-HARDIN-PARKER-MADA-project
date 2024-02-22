@@ -3,9 +3,14 @@ title: "Exploratory Data Analysis: Project Part 2"
 author: "Kevin Kosewick & Emma Hardin-Parker"
 date: "2/20/2024"
 output: html_document
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
-This document contains our exploratory analysis of our chosen data set, sleepdata. We intend to perform any needed cleaning and mutation to the data as well as creating exploratory plots and tables to gain a better understanding of the data. As stated in the manuscript, we are looking to determine which variables or identifiers have significant impacts on sleep quality. 
+This document contains our exploratory analysis of our chosen data set, sleepdata.
+We intend to perform any needed cleaning and mutation to the data as well as creating exploratory plots and tables to gain a better understanding of the data.
+As stated in the manuscript, we are looking to determine which variables or identifiers have significant impacts on sleep quality.
 
 # Setup
 
@@ -17,7 +22,8 @@ library(skimr)
 library(ggplot2)
 library(tidyverse)
 ```
-# Getting to know the data 
+
+# Getting to know the data
 
 Load & View the data.
 
@@ -26,13 +32,16 @@ sleepdata <- read.csv(here("data","raw-data", "ss.csv"))
 View(sleepdata)
 ```
 
-Exploring the structure and format of the data. 
+Exploring the structure and format of the data.
 
 ```{r}
 summary(sleepdata)
 structure(sleepdata)
 ```
-The data set contains 373 observations for 13 variables. Some variables are not easily understandable at face value, so we went back to the data source and accessed the data dictionary. The variables are defined as follows:
+
+The data set contains 373 observations for 13 variables.
+Some variables are not easily understandable at face value, so we went back to the data source and accessed the data dictionary.
+The variables are defined as follows:
 
 Person ID: A unique identifier for each participant.
 Gender: The participant's gender (Male/Female).
@@ -48,17 +57,22 @@ Heart Rate (bpm): The participant's resting heart rate, measured in beats per mi
 Daily Steps: The number of steps the participant takes each day.
 Sleep Disorder: The presence or absence of a sleep disorder in the participant (None, Insomnia, Sleep Apnea).
 
-Before going further into the exploratory analysis, we need to determine whether missing values are present and if they could jeopardize any future analyses. 
+Before going further into the exploratory analysis, we need to determine whether missing values are present and if they could jeopardize any future analyses.
 
 ```{r}
 print(sum(is.na(sleepdata)))
 ```
 
-There are no missing values in our data set! We can now move on to creating new variables or transmuting existing variables. 
+There are no missing values in our data set!
+We can now move on to creating new variables or transmuting existing variables.
 
-# Data Transformation 
+# Data Transformation
 
-We are going to create a categorical variable to go alongside the existing blood pressure variable. We are using blood pressure guidelines from the American Heart Association to create our new categorical blood pressure variable. Our goal with this is to see how blood pressure can affect sleep quality in a more digestible way. First, we will need to create new systolic and diastolic variables to ultimately create our categorical variable. We have attached the guidelines here: 
+We are going to create a categorical variable to go alongside the existing blood pressure variable.
+We are using blood pressure guidelines from the American Heart Association to create our new categorical blood pressure variable.
+Our goal with this is to see how blood pressure can affect sleep quality in a more digestible way.
+First, we will need to create new systolic and diastolic variables to ultimately create our categorical variable.
+We have attached the guidelines here:
 
 [![AHA Guidelines](AHA_Guidelines.png)](https://www.heart.org/en/health-topics/high-blood-pressure)
 
@@ -82,7 +96,9 @@ sleepdata <- sleepdata %>%
   ))
 ```
 
-Now that we have created this new variable and adjusted the format of the blood pressure variables, we are now going to further explore the other variables to see if they are fit, as is, for analysis. We noticed that within the BMI.Category variable, there are both "Normal" and "Normal Weight" categories. We assume this was an oversight in data entry, and intend to merge the two together to ensure all "Normal" categories are together for subsequent analyses. 
+Now that we have created this new variable and adjusted the format of the blood pressure variables, we are now going to further explore the other variables to see if they are fit, as is, for analysis.
+We noticed that within the BMI.Category variable, there are both "Normal" and "Normal Weight" categories.
+We assume this was an oversight in data entry, and intend to merge the two together to ensure all "Normal" categories are together for subsequent analyses.
 
 ```{r}
 # Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category
@@ -95,5 +111,185 @@ sleepdata <- sleepdata %>%
   ))
 ```
 
+As of this point in our cleaning, we feel confident that the data is structured in such a way that analyses can be performed.
 
-As of this point in our cleaning, we feel confident that the data is structured in such a way that analyses can be performed. 
+# Data Visualization and Exploratory Data Analysis
+
+We will now begin to create some figures to help visualize the relationships in the dataset.
+Quality of Sleep is our outcome of interest; we'll explore the effect each other variable seems to have on it.
+First, we'll start with the variables that aren't health specific.
+I asked Microsoft Copilot in Precise Mode to generate the base code for some plots that I then changed them to be specific to the dataset/have more visual appeal.
+
+```{r}
+# Boxplot for Quality of Sleep by Gender
+ggplot(sleepdata, aes(x = Gender, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Quality of Sleep by Gender", x = "Gender", y = "Quality of Sleep")
+
+# Create bins for Age in order to create a clean boxplot.
+sleepdata$AgeGroup <- cut(sleepdata$Age, breaks = c(20, 30, 40, 50, 60), labels = c("20-30", "30-40", "40-50", "50-60"), include.lowest = TRUE)
+
+# Calculate mean Quality of Sleep for each Age Group to plot with means for cleaner visuals
+sleepdata_summary <- sleepdata %>%
+  group_by(AgeGroup) %>%
+  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Bar plot for Mean Quality of Sleep by Age Group with colorblind-friendly palette
+ggplot(sleepdata_summary, aes(x = AgeGroup, y = MeanQuality, fill = AgeGroup)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Mean Quality of Sleep by Age Group", x = "Age Group", y = "Mean Quality of Sleep")
+
+# Calculate mean Quality of Sleep for each Occupation in order to create a bar plot.
+sleepdata_summary <- sleepdata %>%
+  group_by(Occupation) %>%
+  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Bar plot for Mean Quality of Sleep by Occupation with manually specified colors
+ggplot(sleepdata_summary, aes(x = Occupation, y = MeanQuality, fill = Occupation)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = rainbow(length(unique(sleepdata_summary$Occupation)))) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Mean Quality of Sleep by Occupation", x = "Occupation", y = "Mean Quality of Sleep")
+
+```
+
+We can see some clear differences in self-reported Quality of Sleep between these different groups already.
+Females tend to report an average of 1 higher according to the boxplot.
+The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far.
+Our occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far.
+We'll now explore Physical Activity and plot it as a predictor for Quality of Sleep.
+To make it easier to visualize Physical Activity, we'll create a new variable with categories of Low (0-30 minutes), Medium (30-60), and High (60+).
+We'll again use Microsoft Copilot for the basic plot code and modify it to our dataset/preferences.
+
+```{r}
+# Histogram for Physical Activity Level
+ggplot(sleepdata, aes(x = Physical.Activity.Level)) +
+  geom_histogram(binwidth = 10) +
+  labs(title = "Histogram of Physical Activity Level", x = "Physical Activity Level (minutes/day)", y = "Count")
+
+# Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"
+sleepdata$PhysicalActivityGroup <- cut(sleepdata$Physical.Activity.Level, breaks = c(0, 30, 60, Inf), labels = c("Low", "Medium", "High"))
+
+# Box plot for Quality of Sleep by Physical Activity Level Group
+ggplot(sleepdata, aes(x = PhysicalActivityGroup, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Quality of Sleep by Physical Activity Level Group", x = "Physical Activity Level Group", y = "Quality of Sleep")
+```
+
+We can clearly see that Physical Activity level has a positive correlation with Quality of Sleep.
+We'll now explore Daily Steps.
+We can create a new variable with groups according to the guidelines here at [10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).
+Nobody in the dataset goes over 10000 steps a day, however, so we won't see any data for the "Active" or "Highly Active" groups.
+
+```{r}
+# Histogram for Daily Steps
+ggplot(sleepdata, aes(x = Daily.Steps)) +
+  geom_histogram(binwidth = 500) +
+  labs(title = "Histogram of Daily Steps", x = "Daily Steps", y = "Count")
+
+# Create a new variable for Daily Steps groups based off of 10,000 steps.org categories
+sleepdata$StepsGroup <- cut(sleepdata$Daily.Steps, 
+                       breaks = c(-Inf, 5000, 7500, 10000, 12500, Inf), 
+                       labels = c("Sedentary", "Low active", "Somewhat active", "Active", "Highly active"), 
+                       include.lowest = TRUE)
+
+# Box plot for Quality of Sleep by Daily Steps Group
+ggplot(sleepdata, aes(x = StepsGroup, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Quality of Sleep by Daily Steps Group", x = "Daily Steps Group", y = "Quality of Sleep")
+
+```
+
+Daily Steps don't have as clear of a trend as Physical Activity did, but there do seem to be fewer low Quality of Sleep scores in higher daily steps groups.
+Now we'll explore our Sleep Duration variable.
+According to [Medical News Today](https://www.medicalnewstoday.com/articles/sleep-cycle-stages#sleep-requirements), adults aged 18-61 are recommended 7+ hours of sleep a night.
+We'll keep this in mind when looking at our data.
+
+```{r}
+# Histogram for Sleep Duration
+ggplot(sleepdata, aes(x = Sleep.Duration)) +
+  geom_histogram(binwidth = 0.5) +
+  labs(title = "Histogram of Sleep Duration", x = "Sleep Duration (hours)", y = "Count")
+
+# Scatterplot for Quality of Sleep by Sleep Duration
+ggplot(sleepdata, aes(x = Sleep.Duration, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  labs(title = "Quality of Sleep by Sleep Duration", x = "Sleep Duration (hours)", y = "Quality of Sleep")
+
+```
+
+We can see a clear positive correlation between Sleep Duration and Quality of Sleep. This is to be expected. Now we'll begin plotting our final set of variables. We'll start with analyzing the new variable we created with categories of Blood Pressure.
+
+```{r}
+# Bar plot for cat_bp
+ggplot(sleepdata, aes(x = cat_bp)) +
+  geom_bar() +
+  labs(title = "Bar Plot of cat_bp", x = "cat_bp", y = "Count")
+
+# Box plot for Quality of Sleep by cat_bp
+ggplot(sleepdata, aes(x = cat_bp, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Quality of Sleep by cat_bp", x = "cat_bp", y = "Quality of Sleep")
+
+
+```
+The boxplots look a bit strange for the Elevated and Normal levels, but we can see on the histogram that it's likely due to a shortage of data for these categories. We can see, however, that Quality of Sleep does seem to be negatively correlated with increasing stages of hypertension. Now we'll explore BMI with some plots.
+
+```{r}
+# Bar plot for BMI Category
+ggplot(sleepdata, aes(x = BMI.Category)) +
+  geom_bar() +
+  labs(title = "Bar Plot of BMI Category", x = "BMI Category", y = "Count")
+
+# Box plot for Quality of Sleep by BMI Category
+ggplot(sleepdata, aes(x = BMI.Category, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Quality of Sleep by BMI Category", x = "BMI Category", y = "Quality of Sleep")
+
+```
+We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories. However, there are very few in the obese category, so conclusions with that group may not be as supported as others. Now we'll look at Stress Level.
+
+```{r}
+# Histogram for Stress Level
+ggplot(sleepdata, aes(x = Stress.Level)) +
+  geom_histogram(binwidth = 1) +
+  labs(title = "Histogram of Stress Level", x = "Stress Level (scale: 1-10)", y = "Count")
+
+# Scatterplot for Quality of Sleep by Stress Level
+ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  labs(title = "Quality of Sleep by Stress Level", x = "Stress Level (scale: 1-10)", y = "Quality of Sleep")
+```
+Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep. However, this is a subjective scale, so data should be taken with a grain of salt for now. Let's look at Heart Rate related to Quality of Sleep now.
+
+```{r}
+# Histogram for Heart Rate
+ggplot(sleepdata, aes(x = Heart.Rate)) +
+  geom_histogram(binwidth = 5) +
+  labs(title = "Histogram of Heart Rate", x = "Heart Rate (bpm)", y = "Count")
+
+# Scatterplot for Quality of Sleep by Heart Rate
+ggplot(sleepdata, aes(x = Heart.Rate, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  labs(title = "Quality of Sleep by Heart Rate", x = "Heart Rate (bpm)", y = "Quality of Sleep")
+
+```
+
+This data is a bit difficult to visualize for now but we can see a negative correlation between the two. Healthy Heart Rates tend to differ between each individual, however, so we'll have to wait until deeper statistical analyses to draw any educated conclusions for now. We've finally reached our last variable: Sleep Disorders.
+
+```{r}
+# Bar plot for Sleep Disorder
+ggplot(sleepdata, aes(x = Sleep.Disorder)) +
+  geom_bar() +
+  labs(title = "Bar Plot of Sleep Disorder", x = "Sleep Disorder", y = "Count")
+
+# Box plot for Quality of Sleep by Sleep Disorder
+ggplot(sleepdata, aes(x = Sleep.Disorder, y = Quality.of.Sleep)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Quality of Sleep by Sleep Disorder", x = "Sleep Disorder", y = "Quality of Sleep")
+```
+We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we'd expect to see. The dataset also seems to reflect the population accurately, as those without a sleep disorder are more numerous than individuals with one.
