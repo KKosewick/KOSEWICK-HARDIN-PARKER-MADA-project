@@ -4,6 +4,8 @@
 #this script loads the processed, cleaned data, does a simple analysis
 #and saves the results to the results folder
 
+## THIS FILE WILL BE USED FOR FUTURE STATISTICAL ANALYSIS OF SLEEP DATA 
+
 #load needed packages. make sure they are installed.
 library(ggplot2) #for plotting
 library(broom) #for cleaning up output from lm()
