@@ -1,3 +1,5 @@
+This is a placeholder in case we need to use large files in our project in the future. The following text is from the template we used for this project; we've kept it in just in case we need to use this info in the future.
+
 This is where you should store the results of computations that produce
 large files, such as posterior samples from Bayesian models.
 
