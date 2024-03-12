@@ -1,58 +1,80 @@
-###############################
-# analysis script
-#
-#this script loads the processed, cleaned data, does a simple analysis
-#and saves the results to the results folder
+---
+#### Exploratory Data Analysis: Project Part 2
+#### Kevin Kosewick & Emma Hardin-Parker
 
-## THIS FILE WILL BE USED FOR FUTURE STATISTICAL ANALYSIS OF SLEEP DATA 
+# Loading Necessary Packages 
+library(ggplot2) 
+library(broom) 
+library(here) 
+library(tidymodels)
+library(tidyverse)
 
-#load needed packages. make sure they are installed.
-library(ggplot2) #for plotting
-library(broom) #for cleaning up output from lm()
-library(here) #for data loading/saving
+# Writing new dataframe, sleepdata, into a separate excel file to ensure reproducibility 
 
-#path to data
-#note the use of the here() package and not absolute paths
-data_location <- here::here("data","processed_data","processeddata.rds")
+### i'm gonna need your help on this part, Kevin I tried and couldn't figure out the best way to do it ####
 
-#load data. 
-mydata <- readRDS(data_location)
 
+### For now, I'm just going to use the sleepdata frame we already have in the environment
 
 ######################################
-#Data fitting/statistical analysis
+# Fitting Models and Statistical Analysis # 
 ######################################
 
 ############################
-#### First model fit
-# fit linear model using height as outcome, weight as predictor
+#### Fitting a model using Quality of Sleep as the outcome and Physical Activity Level as a predictor
 
-lmfit1 <- lm(Height ~ Weight, mydata)  
+lmfit_quality_activity <- lm(Quality.of.Sleep ~ Physical.Activity.Level, sleepdata)  
 
-# place results from fit into a data frame with the tidy function
-lmtable1 <- broom::tidy(lmfit1)
+# Placing results from lmfit_quality_activty  into a data frame with the tidy function
+lmtable_quality_activity <- broom::tidy(lmfit_quality_activity)
 
-#look at fit results
-print(lmtable1)
+# Viewing the results from the first model fit 
+print(lmtable_quality_activity)
 
-# save fit results table  
-table_file1 = here("results", "resulttable1.rds")
-saveRDS(lmtable1, file = table_file1)
+# Saving the lmfit_quality_activity results table  
+lmtable_quality_activity = here("results", "tables", "lmfit1table.rds")
+saveRDS(lmtable_quality_activity, file = lmtable_quality_activity)
+
+
+      ## include interpretation 
 
 ############################
-#### Second model fit
-# fit linear model using height as outcome, weight and gender as predictor
+#### Fitting a model using Quality of Sleep as the outcome and Sleep Duration as a predictor
 
-lmfit2 <- lm(Height ~ Weight + Gender, mydata)  
+lmfit_quality_duration <- lm(Quality.of.Sleep ~ Sleep.Duration, sleepdata)  
 
-# place results from fit into a data frame with the tidy function
-lmtable2 <- broom::tidy(lmfit2)
+# Placing results from lmfit_quality_duration into a data frame with the tidy function
+lmtable_quality_duration <- broom::tidy(lmfit_quality_duration)
 
-#look at fit results
-print(lmtable2)
+#Viewing the results from the second model fit 
+print(lmtable_quality_duration)
 
-# save fit results table  
-table_file2 = here("results", "resulttable2.rds")
-saveRDS(lmtable2, file = table_file2)
+# Saving the lmfit_quality_duration results table  
+lmtable_quality_duration = here("results", "tables", "lmfit2table.rds")
+saveRDS(lmtable_quality_duration, file = lmtable_quality_duration)
 
-  
+      ## include interpretation 
+
+############################
+#### Fitting a model using Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
+
+lmfit_quality_duration_occupation <- lm(Quality.of.Sleep ~ Sleep.Duration + Occupation, sleepdata)  
+
+# Placing results from lmfit_quality_duration into a data frame with the tidy function
+lmtable_quality_duration_occupation <- broom::tidy(lmfit_quality_duration_occupation)
+
+#Viewing the results from the third model fit 
+print(lmtable_quality_duration_occupation)
+
+# Saving the lmfit_quality_duration_occupation results table  
+lmtable_quality_duration_occupation = here("results", "tables", "lmfit3table.rds")
+saveRDS(lmtable_quality_duration_occupation, file = lmtable_quality_duration_occupation)
+
+      ## include interpretation 
+
+############################
+#### Fitting a nonlinear model using the relationship between Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
+
+#### I will be finishing this Wednesday morning --> plan to fit a nonlinear model on a scatterplot and then use the nls() function from the tidymodels resource
+
+
