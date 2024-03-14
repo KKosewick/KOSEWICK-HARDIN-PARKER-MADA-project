@@ -293,3 +293,13 @@ ggplot(sleepdata, aes(x = Sleep.Disorder, y = Quality.of.Sleep)) +
   labs(title = "Box Plot of Quality of Sleep by Sleep Disorder", x = "Sleep Disorder", y = "Quality of Sleep")
 ```
 We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we'd expect to see. The dataset also seems to reflect the population accurately, as those without a sleep disorder are more numerous than individuals with one.
+
+Finally, we'll save the completely processed data into a new file in the "processed_data" folder.
+```{r}
+#quickly change gender from a character value to a factor
+as.factor(sleepdata$Gender)
+
+#save the processed data separately from the original
+saveRDS(sleepdata, file = "sleepdataprocessed.rds")
+```
+

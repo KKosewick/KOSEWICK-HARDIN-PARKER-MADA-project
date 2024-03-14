@@ -1664,6 +1664,54 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <p>We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we’d expect to see. The dataset also seems to reflect the population accurately, as those without a sleep disorder are more numerous than individuals with one.</p>
+<p>Finally, we’ll save the completely processed data into a new file in the “processed_data” folder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quickly change gender from a character value to a factor</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(sleepdata<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+ [11] Male   Male   Male   Male   Male   Male   Female Male   Female Male  
+ [21] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+ [31] Female Female Female Male   Male   Male   Male   Male   Male   Male  
+ [41] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+ [51] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+ [61] Male   Male   Male   Male   Male   Male   Male   Male   Female Female
+ [71] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+ [81] Female Female Male   Male   Male   Female Male   Male   Male   Male  
+ [91] Male   Male   Male   Male   Female Female Female Female Female Female
+[101] Female Female Female Male   Female Male   Female Male   Male   Male  
+[111] Female Male   Female Male   Female Female Female Female Female Female
+[121] Female Female Female Female Female Female Male   Female Male   Male  
+[131] Female Male   Male   Female Male   Male   Female Male   Female Male  
+[141] Female Male   Female Female Male   Female Male   Male   Female Female
+[151] Female Male   Male   Male   Male   Male   Male   Male   Male   Male  
+[161] Male   Female Female Male   Male   Male   Male   Male   Male   Male  
+[171] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+[181] Male   Male   Male   Male   Female Female Female Male   Female Male  
+[191] Female Male   Male   Male   Male   Male   Male   Male   Male   Male  
+[201] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+[211] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
+[221] Female Male   Male   Male   Female Male   Female Male   Female Male  
+[231] Female Male   Female Male   Female Male   Male   Female Male   Male  
+[241] Female Male   Male   Female Male   Female Male   Male   Male   Male  
+[251] Female Female Female Female Female Female Female Female Female Female
+[261] Female Female Female Female Male   Female Male   Female Female Female
+[271] Female Female Female Female Female Female Male   Male   Female Female
+[281] Female Female Female Female Female Female Female Female Female Female
+[291] Female Female Female Female Female Female Female Female Female Female
+[301] Female Female Female Female Female Female Female Female Female Female
+[311] Female Female Female Female Female Female Female Female Female Female
+[321] Female Female Female Female Female Female Female Female Female Female
+[331] Female Female Female Female Female Female Female Female Female Female
+[341] Female Female Female Female Female Female Female Female Female Female
+[351] Female Female Female Female Female Female Female Female Female Female
+[361] Female Female Female Female Female Female Female Female Female Female
+[371] Female Female Female
+Levels: Female Male</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save the processed data separately from the original</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(sleepdata, <span class="at">file =</span> <span class="st">"sleepdataprocessed.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 
 </main>

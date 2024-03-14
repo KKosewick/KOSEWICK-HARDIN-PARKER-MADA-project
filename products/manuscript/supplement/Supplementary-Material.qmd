@@ -2,7 +2,7 @@
 title: "Supplement to Example Manuscript Template for a Data Analysis Project"
 
 subtitle: ""
-author: Andreas Handel
+author: Kevin Kosewick and Emma Hardin-Parker
 date: "`r Sys.Date()`"
 format:
   pdf:
@@ -19,6 +19,10 @@ csl: ../../assets/vancouver.csl
 library(here)
 library(knitr)
 ```
+
+
+For now, this document is a placeholder with the original text that came with the template for this project. All text beyond here is not relevant to our project in particular and will be updated when we have supplementary materials to include.
+
 
 
 

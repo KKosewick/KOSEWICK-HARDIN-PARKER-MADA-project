@@ -31,13 +31,12 @@ bibliography: ../manuscript/dataanalysis-references.bib
 
 Project Part 1: This dataset was obtained from Kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data) and was created by Mark Otto and Andrew Fong at MIT. The set has 373 observations for 13 variables covering a broad spectrum associated with sleep and daily routine. 
 
-```{r}
+```{r Package Loading, warning=FALSE, message=FALSE}
 #load in the data and check it out
 library(here)
-sleepdata <- read.csv(here("data","raw-data", "ss.csv"))
-summary(sleepdata)
-structure(sleepdata)
-class(sleepdata)
+library(tidyverse)
+library(dplyr)
+library(skimr)
 ```
 
 
@@ -58,41 +57,15 @@ We can likely use GLMs and t-tests/ANOVA tests to see the significance that vari
   ** NEED TO INSERT ** 
 
 
-## Data import and cleaning
+## Data import
 
-We'll include the data cleaning here in order to generate our plots in this document. Please see the eda.qmd file for full exploratory results and the cleaning process.
+We'll load in the cleaned data here. Please see the eda.qmd file for full exploratory results and the cleaning process.
 
-```{r}
-#load cleaning tools
-library(tidyverse)
-# Splitting the Blood.Pressure variable into systolic and diastolic variable columns
-sleepdata <- sleepdata %>%
-  separate(Blood.Pressure, into = c("systolic", "diastolic"), sep = "/")
+```{r Loading the Processed Data}
+#load the cleaned data
+sleepdata<- readRDS(here("data","processed-data", "sleepdataprocessed.rds"))
 
-# Ensuring that the new columns are considered numeric 
-sleepdata$systolic <- as.numeric(sleepdata$systolic)
-sleepdata$diastolic <- as.numeric(sleepdata$diastolic)
-
-# Creating new categorical variable 
-
-sleepdata <- sleepdata %>%
-  mutate(cat_bp = case_when(
-    systolic < 120 & diastolic < 80 ~ "Normal",
-    systolic >= 120 & systolic <= 129 & diastolic < 80 ~ "Elevated",
-    (systolic >= 130 & systolic <= 139) | (diastolic >= 80 & diastolic <= 89) ~ "Stage 1 Hypertension",
-    systolic >= 140 | diastolic >= 90 ~ "Stage 2 Hypertension"
-  ))
-# Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category
-
-sleepdata <- sleepdata %>%
-  mutate(BMI.Category = case_when(
-    BMI.Category %in% c("Normal", "Normal Weight") ~ "Normal",
-    BMI.Category == "Overweight" ~ "Overweight",
-    BMI.Category == "Obese" ~ "Obese",
-  ))
 ```
-
-
 
 
 ## Statistical analysis
@@ -112,12 +85,9 @@ Here are the most interesting/distinct plots from the EDA:
 Physical Activity plot:
 
 We can clearly see that Physical Activity level has a positive correlation with Quality of Sleep.
-```{r}
+```{r Physical Activity Plot, warning=FALSE, message=FALSE}
 #load plot package
 library(ggplot2)
-
-# Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"
-sleepdata$PhysicalActivityGroup <- cut(sleepdata$Physical.Activity.Level, breaks = c(0, 30, 60, Inf), labels = c("Low", "Medium", "High"))
 
 # Box plot for Quality of Sleep by Physical Activity Level Group
 ggplot(sleepdata, aes(x = PhysicalActivityGroup, y = Quality.of.Sleep)) +
@@ -131,7 +101,7 @@ We can see some clear differences in self-reported Quality of Sleep between thes
 Females tend to report an average of 1 higher according to the boxplot.
 The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far.
 Our occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far.
-```{r}
+```{r Gender, Age, and Occupation Plot}
 # Boxplot for Quality of Sleep by Gender
 ggplot(sleepdata, aes(x = Gender, y = Quality.of.Sleep)) +
   geom_boxplot() +
@@ -167,7 +137,7 @@ ggplot(sleepdata_summary, aes(x = Occupation, y = MeanQuality, fill = Occupation
 BMI:
 We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories. However, there are very few in the obese category, so conclusions with that group may not be as supported as others.
 
-```{r}
+```{r BMI plot}
 # Box plot for Quality of Sleep by BMI Category
 ggplot(sleepdata, aes(x = BMI.Category, y = Quality.of.Sleep)) +
   geom_boxplot() +
@@ -178,7 +148,7 @@ Blood Pressure:
 
 The boxplots look a bit strange for the Elevated and Normal levels, but we can see that it's likely due to a shortage of data for these categories. We can see, however, that Quality of Sleep does seem to be negatively correlated with increasing stages of hypertension.
 
-```{r}
+```{r Blood Pressure Plot}
 # Bar plot for cat_bp
 ggplot(sleepdata, aes(x = cat_bp)) +
   geom_bar() +
@@ -194,7 +164,7 @@ ggplot(sleepdata, aes(x = cat_bp, y = Quality.of.Sleep)) +
 And Stress Level:
 Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep. However, this is a subjective scale, so data should be taken with a grain of salt for now.
 
-```{r}
+```{r Stress Level Plot}
 # Scatterplot for Quality of Sleep by Stress Level
 ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
   geom_point() +
@@ -209,6 +179,7 @@ End of Project Part 2.
 
 ## Basic statistical analysis
 
+**Included in the analysis-code folder  for now**
 
 ## Full analysis
 

@@ -1,3 +1,4 @@
-Place your various R or Quarto files in the appropriate folders.
 
-The scripts should load the appropriate data (e.g. raw or processed), perform actions, and save results (e.g. processed data, figures, computed values) in the appropriate folders.
+The `analysis-code` folder contains the script to run our main statistical analyses of the sleep data set. This is saved as `statistical-analysis.R`.
+
+The `eda-processing-code` folder contains the script to run our data cleaning and exploratory analysis in the `eda.qmd` file.
