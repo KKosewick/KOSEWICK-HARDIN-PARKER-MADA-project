@@ -9,6 +9,11 @@ library(here)
 library(tidymodels)
 library(tidyverse)
 
+<<<<<<< Updated upstream
+=======
+# Writing new dataframe, sleepdata, into a separate excel file to ensure reproducibility 
+
+>>>>>>> Stashed changes
 ######################################
 # Fitting Models and Statistical Analysis # 
 ######################################
@@ -32,10 +37,13 @@ lmtable_quality_activity = here("results", "tables", "lmfit1table.rds")
 saveRDS(lmtable_quality_activity, file = lmtable_quality_activity)
 
 
+<<<<<<< Updated upstream
       ## The intercept value indicates that Quality of Sleep will be 6.66 if physical activity is at 0. This has a relatively low standard error and high significance.
 ## The coefficient for our variable indicates that as Physical activity level increases by one unit, Quality of Sleep will increase by 0.0109. Our t-statistic is indicated as significant by the p-value but is much lower than the intercept's.
 ## This means that Physical Activity Level does have a measurable impact on Quality of Sleep, but it's relatively small.
 
+=======
+>>>>>>> Stashed changes
 ############################
 #### Fitting a model using Quality of Sleep as the outcome and Sleep Duration as a predictor
 
@@ -51,8 +59,11 @@ print(lmtable_quality_duration)
 lmtable_quality_duration = here("results", "tables", "lmfit2table.rds")
 saveRDS(lmtable_quality_duration, file = lmtable_quality_duration)
 
+<<<<<<< Updated upstream
       ## For our sleep duration model, we can see that our intercept's negative value indicates that Quality of Sleep would be very poor if individuals got no sleep. This is rational and is supported by a strong p-value and a decent t-statistic, although the standard error is a bit high. 
 ## For our variable coefficient, we can see that as sleep duration increases by one unit, Quality of sleep also increases by about 1. This has a very strong p-value and t-statistic, indicating a strong relationship between this predictor and our outcome of interest.
+=======
+>>>>>>> Stashed changes
 
 ############################
 #### Fitting a model using Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
@@ -69,6 +80,7 @@ print(lmtable_quality_duration_occupation)
 lmtable_quality_duration_occupation = here("results", "tables", "lmfit3table.rds")
 saveRDS(lmtable_quality_duration_occupation, file = lmtable_quality_duration_occupation)
 
+<<<<<<< Updated upstream
       ## Since Occupation is a categorical variable, interpreting our intercept value is tricky. It's hard to get good information from it since we don't have any data from unemployed people. However, the coefficients for our predictors show a variety of interesting relationships.
 ## Sleep Duration shows a similar relationship to our bivariate model we ran earlier. Sales representatives have the worst sleep quality by far with a strong t-statistic and p-value. Scientists, doctors, and sales persons are all about the next worst (with strong t-stats and p-values). 
 ## The occupations that seem to have the best sleep are teachers, lawyers, engineers and nurses. This is somewhat surprising since these are all demanding jobs that can have decently stressful work environments. 
@@ -162,9 +174,6 @@ saveRDS(lmtable_quality_age, file = lmtable_quality_age)
 ## Our model shows a strong relationship between age and quality of sleep. As Age increases, sleep quality seems to improve. Each year increase in age is predicted to have a 0.065 increase in sleep quality score.
 ## The intercept here is also interesting as an age of "0" is predicted to have a sleep score of 4.57, which is relatively poor. The t-statistics and p-values for these are both strong.
 
-############################
-#### Fitting a nonlinear model using the relationship between Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
-
-#### I will be finishing this Wednesday morning --> plan to fit a nonlinear model on a scatterplot and then use the nls() function from the tidymodels resource
-
+=======
+>>>>>>> Stashed changes
 
