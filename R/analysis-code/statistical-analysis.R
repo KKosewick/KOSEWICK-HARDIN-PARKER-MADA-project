@@ -3,17 +3,18 @@
 #### Kevin Kosewick & Emma Hardin-Parker
 
 # Loading Necessary Packages 
-library(ggplot2) 
+
 library(broom) 
 library(here) 
 library(tidymodels)
 library(tidyverse)
+library(corrplot)
+library(ranger)
+library(vip)
+library(ggplot2)
 
-<<<<<<< Updated upstream
-=======
 # Writing new dataframe, sleepdata, into a separate excel file to ensure reproducibility 
 
->>>>>>> Stashed changes
 ######################################
 # Fitting Models and Statistical Analysis # 
 ######################################
@@ -36,14 +37,10 @@ print(lmtable_quality_activity)
 lmtable_quality_activity = here("results", "tables", "lmfit1table.rds")
 saveRDS(lmtable_quality_activity, file = lmtable_quality_activity)
 
-
-<<<<<<< Updated upstream
       ## The intercept value indicates that Quality of Sleep will be 6.66 if physical activity is at 0. This has a relatively low standard error and high significance.
 ## The coefficient for our variable indicates that as Physical activity level increases by one unit, Quality of Sleep will increase by 0.0109. Our t-statistic is indicated as significant by the p-value but is much lower than the intercept's.
 ## This means that Physical Activity Level does have a measurable impact on Quality of Sleep, but it's relatively small.
 
-=======
->>>>>>> Stashed changes
 ############################
 #### Fitting a model using Quality of Sleep as the outcome and Sleep Duration as a predictor
 
@@ -59,11 +56,8 @@ print(lmtable_quality_duration)
 lmtable_quality_duration = here("results", "tables", "lmfit2table.rds")
 saveRDS(lmtable_quality_duration, file = lmtable_quality_duration)
 
-<<<<<<< Updated upstream
       ## For our sleep duration model, we can see that our intercept's negative value indicates that Quality of Sleep would be very poor if individuals got no sleep. This is rational and is supported by a strong p-value and a decent t-statistic, although the standard error is a bit high. 
 ## For our variable coefficient, we can see that as sleep duration increases by one unit, Quality of sleep also increases by about 1. This has a very strong p-value and t-statistic, indicating a strong relationship between this predictor and our outcome of interest.
-=======
->>>>>>> Stashed changes
 
 ############################
 #### Fitting a model using Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
@@ -80,7 +74,6 @@ print(lmtable_quality_duration_occupation)
 lmtable_quality_duration_occupation = here("results", "tables", "lmfit3table.rds")
 saveRDS(lmtable_quality_duration_occupation, file = lmtable_quality_duration_occupation)
 
-<<<<<<< Updated upstream
       ## Since Occupation is a categorical variable, interpreting our intercept value is tricky. It's hard to get good information from it since we don't have any data from unemployed people. However, the coefficients for our predictors show a variety of interesting relationships.
 ## Sleep Duration shows a similar relationship to our bivariate model we ran earlier. Sales representatives have the worst sleep quality by far with a strong t-statistic and p-value. Scientists, doctors, and sales persons are all about the next worst (with strong t-stats and p-values). 
 ## The occupations that seem to have the best sleep are teachers, lawyers, engineers and nurses. This is somewhat surprising since these are all demanding jobs that can have decently stressful work environments. 
@@ -161,19 +154,181 @@ saveRDS(lmtable_quality_gender_age, file = lmtable_quality_gender_age)
 
 lmfit_quality_age <- lm(Quality.of.Sleep~ Age, sleepdata)
 
-#Placing results from lmfit_quality_gender_age into a data frame with the tidy function
+#Placing results from lmfit_quality_age into a data frame with the tidy function
 lmtable_quality_age <- broom::tidy(lmfit_quality_age)
 
-#Viewing the results from the seventh model fit 
+#Viewing the results from the eighth model fit 
 print(lmtable_quality_age)
 
-# Saving the lmfit_quality_gender_age results table  
+# Saving the lmfit_quality_age results table  
 lmtable_quality_age = here("results", "tables", "lmfit8table.rds")
 saveRDS(lmtable_quality_age, file = lmtable_quality_age)
 
 ## Our model shows a strong relationship between age and quality of sleep. As Age increases, sleep quality seems to improve. Each year increase in age is predicted to have a 0.065 increase in sleep quality score.
 ## The intercept here is also interesting as an age of "0" is predicted to have a sleep score of 4.57, which is relatively poor. The t-statistics and p-values for these are both strong.
 
-=======
->>>>>>> Stashed changes
+##############################
+#### Now we'll create a new variable that groups the different occupations to make analysis more succinct.
+
+# Create a new column
+sleepdata$Occupation_Group <- as.character(sleepdata$Occupation)
+
+# Map occupations to broader categories
+sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Nurse', 'Doctor')] <- 'Healthcare'
+sleepdata$Occupation_Group[sleepdata$Occupation == 'Teacher'] <- 'Education'
+sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Software Engineer', 'Engineer')] <- 'Engineering'
+sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Accountant', 'Salesperson', 'Sales Representative', 'Manager')] <- 'Business/Finance'
+sleepdata$Occupation_Group[sleepdata$Occupation == 'Scientist'] <- 'Science'
+
+# Convert the new column to a factor
+sleepdata$Occupation_Group <- as.factor(sleepdata$Occupation_Group)
+
+## This should help with analysis of this variable. We'll fit this to a model now to test it.
+
+lmfit_quality_occupation <- lm(Quality.of.Sleep~ Occupation_Group, sleepdata)
+
+#Placing results from lmfit_quality_occupation into a data frame with the tidy function
+lmtable_quality_occupation <- broom::tidy(lmfit_quality_occupation)
+
+#Viewing the results from the occupation model fit 
+print(lmtable_quality_occupation)
+
+# Saving the lmfit_quality_gender_age results table  
+lmtable_quality_occupation = here("results", "tables", "lmfit9table.rds")
+saveRDS(lmtable_quality_occupation, file = lmtable_quality_occupation)
+
+## Looking at our newly grouped occupations, we can see that our intercept has a high t-statistic and significance; this indicates that being unemployed would result in a sleep quality score of about 7, which is pretty good. 
+# Teaching and healthcare professions don't seem to have a significant impact on an individual's sleep quality score. They have low t-statistics and large p-values.
+# Engineers seem to have the best sleep quality score; they're predicted to have a score of about 8.3 (with strong p-values and t-statistics). Scientists seem to have the worst score; they're predicted to have 2 points lower sleep quality than our intercept. The t-statistic and p-value are both strong for this group.
+# Lawyers fall in the middle, having a decent increase in sleep quality compared to the intercept and solid p-values and t-statistics to support this.
+
+##############################
+#### Now we'll remove unnecessary variables (e.g. ones we've feature engineered into more useful ones) to make our analyses easier.
+
+sleepdatafinal <- subset(sleepdata, select = -c(Occupation, systolic, diastolic, Daily.Steps, Physical.Activity.Level, Heart.Rate, AgeGroup))
+
+##############################
+#### Creating a collinearity plot
+
+#We'll make sure there isn't collinearity between our continuous variables before we fit more complex models. 
+
+# Select the variables
+continuous_vars <- sleepdatafinal[, c("Age", "Sleep.Duration", "Quality.of.Sleep", "Stress.Level")]
+
+# Compute correlation matrix
+correlation_matrix <- cor(continuous_vars)
+
+# Create a pairwise correlation plot (using corrplot)
+corrplot(correlation_matrix, method = "circle")
+
+#It seems that stress level and quality of sleep are at an absolute value of 0.9 or higher on the correlation scale. 
+#Sleep Duration and stress level also seem closely tied. Stress level and quality of sleep are both subjective scales given by an individual; this is interesting to note.
+#We're definitely still interested in stress as a predictor. We'll keep it in our analysis, but it seems good to note that it has a very linear relationship with sleep quality.
+
+##############################
+#### Fitting a Random Forest model and using cross validation to verify its predictive power on unseen data
+
+#First, we'll create a random seed to aid in reproducibility.
+
+rngseed=1234
+set.seed(rngseed)
+
+#We'll now train a Random Forest model using CV with no train/test split (as the data has less than 400 observations and many of the values are rare/unique for some columns)
+
+# Random Forest model specification; include the mtry and min_n parameters
+model_spec <- rand_forest(mtry = tune(), min_n = tune(), trees = 300) %>%
+  set_engine("ranger", importance = 'impurity', seed = rngseed) %>%
+  set_mode("regression")
+
+# Specify the recipe
+data_recipe <- recipe(Quality.of.Sleep ~ ., data = sleepdatafinal)
+
+# Create Random Forest workflow
+data_workflow <- workflow() %>%
+  add_model(model_spec) %>%
+  add_recipe(data_recipe)
+
+# Create resamples using 5-fold cross-validation, 5 times repeated
+resamples <- vfold_cv(sleepdatafinal, v = 5, repeats = 5)
+
+# Define the grid of parameters
+mtry_param <- mtry(range = c(1, 7))
+min_n_param <- min_n(range = c(1, 21))
+rf_grid <- grid_regular(mtry_param, min_n_param, levels = 7)
+
+# Tune the Random Forest model
+tune_results_rf <- tune_grid(
+  data_workflow,
+  resamples = resamples,
+  grid = rf_grid
+)
+
+# Print RF results
+print(tune_results_rf)
+#Plot them too
+autoplot(tune_results_rf)
+
+#We've successfully fit our RF model; now, we can pick the different pieces apart and see what predictors seem the most important and which model is best.
+
+#Best RMSE model
+best_params <- select_best(tune_results_rf, metric = "rmse")
+
+#Variable importance info
+# Finalize the workflow with the best parameters
+final_wf <- finalize_workflow(data_workflow, best_params)
+
+# Fit the finalized workflow to the entire data
+final_fit <- fit(final_wf, data = sleepdatafinal)
+# Extract the fitted model
+fitted_model <- extract_fit_parsnip(final_fit)
+
+# Create a variable importance plot
+vip(fitted_model$fit)
+
+#We can see that sleep duration, stress level, and Age seem to have the most importance for our model.
+#PhysicalActivityLevel doesn't seem to have much of an impact on Quality of Sleep, as it was excluded from the variable importance plot altogether. These results are pretty in line with what we discovered
+# with our EDA and our simple linear models, but now we have a ranking given by this plot. 
+
+#Now, we'll see how well this model predicts new data.
+# Make predictions
+predictions <- predict(final_fit, new_data = sleepdatafinal)
+
+# Add the predictions to dataframe
+sleepdatafinal$Predicted <- predictions$.pred
+
+# Create an observed vs. predicted plot
+ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
+  geom_point() +
+  geom_abline(color = "red") +
+  labs(x = "Observed", y = "Predicted", title = "Observed vs. Predicted Plot") +
+  theme_minimal()
+
+#This seems like a very solid fit; not too close to where overfitting is obvious, but not too far to where the predictions aren't useful either.
+
+##############################
+#### Creating a "null" model and comparing our RF results 
+
+#Now, we'll make a "null" model and compare its results to that of our RF in order to make sure that the RF is useful.
+
+# Specify the null model
+null_mod <- null_model() %>%
+  set_engine("parsnip") %>%
+  set_mode("regression")
+
+# Fit the null model to your data
+null_fit <- fit(null_mod, Quality.of.Sleep ~ 1, data = sleepdatafinal)
+
+# Make predictions
+null_predictions <- predict(null_fit, new_data = sleepdatafinal)
+
+# Bind the predictions with the actual values
+data_with_predictions <- bind_cols(sleepdatafinal, null_predictions)
+
+# Compute RMSE
+null_rmse <- rmse(data_with_predictions, truth = Quality.of.Sleep, estimate = .pred)
+
+# Print the RMSE
+print(null_rmse)
+
+#This RMSE is a good bit higher than the 0.2-0.32 range of our Random Forest models. This is a good sign that the RF model performs well on the data.
 
