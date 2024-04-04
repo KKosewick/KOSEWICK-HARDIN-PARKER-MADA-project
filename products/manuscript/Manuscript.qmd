@@ -26,6 +26,11 @@ bibliography: ../manuscript/dataanalysis-references.bib
 
 ## Background Information
 
+  The data was obtained from kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data). It contains data from a study on individuals of different sexes and age regarding their sleep quality and different variables that may affect this. We are unsure of where this data set came from and how it was collected; the publisher on Kaggle has yet to respond to a comment with this question posted on March 5th 2024. Regardless, it contains interesting variables that have been shown in previous studies to have an effect on sleep quality.
+  
+  For instance, in Sun et al. (2015), a sample of Chinese individuals showed a correlation between obesity and worsened sleep quality in men but not women. We are interested in seeing if this trend holds up for our dataset; given that most of the observations are of men, we expect to see a correlation between lower sleep scores and obesity in our data. Furthermore, it has been shown that age and gender have a notable effect on sleep quality (Madrid-Valero et al. 2016). Women seem to experience a deterioration in sleep quality as they age; however, while this trend is still present in men, it is notably less consistent and can vary dramatically between individuals. We expect to see similar trends in our dataset, but as stated previously, our observations contain significantly more men than women. Finally, we wish to test whether or not certain occupational industries have different effects on sleep quality. It has been shown that managerial positions tend to have the worst sleep quality among civilian sector workers while 24 jobs that have rotating shifts tend to have the worst sleep quality (Luckhaupt et al. 2010). Our dataset contains observations of mostly white-collar/service-based jobs, so we expect to find similar trends upon analysis.
+  
+
   *NEED TO INSERT * 
   
   *EMMA'S SOURCES ARE LINKED HERE:*
@@ -34,14 +39,13 @@ bibliography: ../manuscript/dataanalysis-references.bib
   https://www.apa.org/news/press/releases/stress/2013/sleep --> sleep duration & stress on sleep quality 
   https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10503965/#:~:text=Regular%20physical%20activity%20can%20lead,managing%20sleep%20disorders%20like%20insomnia. --> physical activity and sleep quality 
   
-  
 {{< pagebreak >}}
 
 # Materials and Methods (3)
 
 ## Data and Processing
 
-The data were obtained from kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data). The dataset was curated by Mark Otto and Andrew Fong at MIT. The dataset originally contained 373 observations for 13 variables covering a broad spectrum health and lifestyle variables associated with sleep quality. The curators of the dataset did not provide information on how these data were collected, so we solely relied on the codebook for variable definitions. There were no missing values or erroneous variables in the dataset that we needed to remove. The Blood.Pressure variable was transformed to reflect the systolic and diastolic blood pressure measurements from each subject. We then chose to add an additional variable, labeled 'cat_bp' to reflect the categorical blood pressure status of a subject based on the American Heart Association guidelines *INCLUDE REFERENCE HERE (can be found in eda.qmd file)* . Additionally we created a variable, 'StepsGroup' to determine the categorical activity level of subjects in the dataset based on these guidelines provided by 10,000 steps *[10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).* Finally we created an additional categorical variable, 'PhysicalActivityGroup' based on 30 minute increments, to categorically represent the level of physical activity reported by a subject. The outcome of interest is noted as "Quality.of.Sleep" that we will reference as Sleep Quality or Quality of Sleep throughout this report. 
+The dataset originally contained 373 observations for 13 variables covering a broad spectrum health and lifestyle variables associated with sleep quality. The curators of the dataset did not provide information on how or where this data was collected, so we solely relied on the codebook for variable definitions. There were no missing values or erroneous variables in the dataset that we needed to remove. The "Blood.Pressure" variable was transformed to reflect the systolic and diastolic blood pressure measurements from each subject. We then chose to add an additional variable, labeled 'cat_bp' to reflect the categorical blood pressure status of a subject based on the American Heart Association guidelines *INCLUDE REFERENCE HERE (can be found in eda.qmd file)* . Additionally we created a variable, 'StepsGroup' to determine the categorical activity level of subjects in the dataset based on these guidelines provided by 10,000 steps *[10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).* Finally, we created an additional categorical variable, 'PhysicalActivityGroup' based on 30 minute increments, to categorically represent the level of physical activity reported by a subject. The outcome of interest is noted as "Quality.of.Sleep" that we will reference as Sleep Quality or Quality of Sleep throughout this report. 
 
 
 *Unsure if we need this to be here? Or if it will even show up given the FALSE arguments we added*
@@ -61,8 +65,6 @@ The Occupation variable was then transformed to group the various occupations in
 
 
 ## Model Development
-
-*Include LASSO to have more than one ML model?* 
 
 Random Forest Models and Cross-Validation were considered to be the "best" fit for our outcome of interest, Quality of Sleep. The data were not split into train/test subsets as the data contains less than 400 observations and many of the values were unique in comparison to the rest of the data. Prior to constructing this model, a collinearity plot was constructed to determine any presence of collinearity in our data. *INCLUDE PLOT HERE* Stress and Sleep Quality had an absolute value of 0.9 on the correlation scale. Sleep Duration and Stress were also seen to be strongly correlated. Stress was still included in our models; however, we found it important to note the strong linear relationship between Stress and Sleep Quality. 
 
@@ -92,7 +94,7 @@ All processing and analysis code can be found in the Supplementary Material file
 
 ## Outcomes of Interest
 
-The 'Quality of Sleep' variable has been selected as our outcome of interest. It is important to note that this variable is a subjective measure of a participant's self-reported sleep quality. The following plot shows that most of subjects reported a sleep quality score of 8 (out of 10). *REFERENCE SLEEP_DIS PLOT FROM EDA.QMD FILE*  
+The 'Quality of Sleep' variable has been selected as our outcome of interest. It is important to note that this variable is a subjective measure of a participant's self-reported sleep quality. The following plot shows that most subjects reported a sleep quality score of 8 (out of 10). *REFERENCE SLEEP_DIS PLOT FROM EDA.QMD FILE*  
 
 ## Exploratory Findings
 
@@ -134,7 +136,12 @@ A variable importance plot (VIP) was constructed to determine which variables ha
 *INCLUDE INCREMENTALLY -- FINALIZE* 
 
 
-
+  https://link.springer.com/article/10.1007/s11325-015-1193-z --> obesity and sleep quality (affects men but not women in China)
+  
+  https://www.scielosp.org/article/gs/2017.v31n1/18-22/en/?uid=680b54f39b# --> effect of age and gender on sleep quality (women worse than men, sleep quality deteriorates with age in women but is a bit all over the place for men)
+  
+  https://academic.oup.com/sleep/article/33/2/149/2454438#77919376 --> sleep quality by occupation/industry (managerial positions had the worst score)
+  
 
 
 
@@ -284,13 +291,6 @@ Our model shows a strong relationship between age and quality of sleep. As Age i
 
 {{< pagebreak >}}
 
-
-# Results
-
-## Outcomes of Interest 
-
-
-
 ## Exploratory/Descriptive analysis
 
 Here are the most interesting/distinct plots from the EDA: 
@@ -386,31 +386,3 @@ ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
 ```
 
 The other plots were either self explanatory (e.g. Sleep Duration meant higher sleep quality) or had less defined trends (e.g. heart rate and daily steps).
-
-
-
-## Basic statistical analysis
-
-**Included in the analysis-code folder  for now**
-
-## Full analysis
-
-{{< pagebreak >}}
-
-
-# Discussion
-
-## Summary and Interpretation
-
-## Strengths and Limitations
-
-## Conclusions
-
-
-
-{{< pagebreak >}}
-
-# References
-
-
-

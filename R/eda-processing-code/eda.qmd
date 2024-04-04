@@ -300,7 +300,7 @@ Finally, we'll save the completely processed data into a new file in the "proces
 as.factor(sleepdata$Gender)
 
 #save the processed data separately from the original
-saveRDS(sleepdata, file = "sleepdataprocessed.rds")
+saveRDS(sleepdata, file = here("data", "processed-data", "sleepdataprocessed.rds"))
 ```
 
 Distribution of the outcome of interest, Quality of Sleep
