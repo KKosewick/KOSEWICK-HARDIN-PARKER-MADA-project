@@ -1,5 +1,5 @@
 ---
-title: "Manuscript for MADA Project"
+title: "An Analysis of Health & Lifestyle Factors Associated with Sleep Quality"
 subtitle: ""
 author: Kevin Kosewick and Emma Hardin-Parker
 date: "`r Sys.Date()`"
@@ -12,25 +12,39 @@ bibliography: ../manuscript/dataanalysis-references.bib
 
 ---
 
+*ANYTHING BELOW CODE LINE 172 IS A DRAFT AND IS NOT TO BE CONSIDERED A PART OF THE FINAL MANUSCRIPT*  
 
-# Summary/Abstract
+# Summary/Abstract (1)
   
-  ** NEED TO INSERT ** 
+  *NEED TO INSERT* 
+  
+  *WILL NEED COLLAB FOR PART 5* 
 
 
+
+# Introduction (2)
+
+## Background Information
+
+  *NEED TO INSERT * 
+  
+  *EMMA'S SOURCES ARE LINKED HERE:*
+  
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8345503/ --> blood pressure and sleep
+  https://www.apa.org/news/press/releases/stress/2013/sleep --> sleep duration & stress on sleep quality 
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10503965/#:~:text=Regular%20physical%20activity%20can%20lead,managing%20sleep%20disorders%20like%20insomnia. --> physical activity and sleep quality 
+  
+  
 {{< pagebreak >}}
 
+# Materials and Methods (3)
 
-# Introduction 
+## Data and Processing
 
-## General Background Information
+The data were obtained from kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data). The dataset was curated by Mark Otto and Andrew Fong at MIT. The dataset originally contained 373 observations for 13 variables covering a broad spectrum health and lifestyle variables associated with sleep quality. The curators of the dataset did not provide information on how these data were collected, so we solely relied on the codebook for variable definitions. There were no missing values or erroneous variables in the dataset that we needed to remove. The Blood.Pressure variable was transformed to reflect the systolic and diastolic blood pressure measurements from each subject. We then chose to add an additional variable, labeled 'cat_bp' to reflect the categorical blood pressure status of a subject based on the American Heart Association guidelines *INCLUDE REFERENCE HERE (can be found in eda.qmd file)* . Additionally we created a variable, 'StepsGroup' to determine the categorical activity level of subjects in the dataset based on these guidelines provided by 10,000 steps *[10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).* Finally we created an additional categorical variable, 'PhysicalActivityGroup' based on 30 minute increments, to categorically represent the level of physical activity reported by a subject. The outcome of interest is noted as "Quality.of.Sleep" that we will reference as Sleep Quality or Quality of Sleep throughout this report. 
 
-  ** NEED TO INSERT ** 
 
-## Description of data and data source
-
-Project Part 1: This dataset was obtained from Kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data) and was created by Mark Otto and Andrew Fong at MIT. The set has 373 observations for 13 variables covering a broad spectrum associated with sleep and daily routine. 
-
+*Unsure if we need this to be here? Or if it will even show up given the FALSE arguments we added*
 ```{r Package Loading, warning=FALSE, message=FALSE}
 #load in the data and check it out
 library(here)
@@ -39,11 +53,127 @@ library(dplyr)
 library(skimr)
 ```
 
+## Variables included in Analyses *Include Questions / Hypotheses Here* 
 
+Given that there were only 13 original variables, and 17 variables after final data transformation; simple linear regression models were performed to determine baseline associations between variables and Sleep Quality, the outcome of interest. These regression models were created to determine which variables had the largest impact on Sleep Quality and drove the rest of the analyses. Simple linear regression models were fitted for the following variables: BMI, cat_bp, Stress Level, Gender, Age, and Occupation. 
+
+The Occupation variable was then transformed to group the various occupations into the following groups: Healthcare, Education, Engineering, Business/Finance, and Science. Prior to performing any subsequent analyses, we removed the original versions of the variables we transformed: systolic, diastolic, daily steps, occupation, Physical.Activity.Level, Heart.Rate, and AgeGroup. 
+
+
+## Model Development
+
+*Include LASSO to have more than one ML model?* 
+
+Random Forest Models and Cross-Validation were considered to be the "best" fit for our outcome of interest, Quality of Sleep. The data were not split into train/test subsets as the data contains less than 400 observations and many of the values were unique in comparison to the rest of the data. Prior to constructing this model, a collinearity plot was constructed to determine any presence of collinearity in our data. *INCLUDE PLOT HERE* Stress and Sleep Quality had an absolute value of 0.9 on the correlation scale. Sleep Duration and Stress were also seen to be strongly correlated. Stress was still included in our models; however, we found it important to note the strong linear relationship between Stress and Sleep Quality. 
+
+A variable importance plot (VIP) was constructed to determine which variables had the strongest impact in our Random Forest Model. *INCLUDE PLOT HERE* Sleep Duration, Stress Level, and Age had the highest levels of importance in our model. Physical Activity Level was excluded entirely, which was to be expected given our exploratory data analysis and simple linear regression models. 
+
+
+ 
+## Defining the Models 
+
+*DEFINE DECISION TREES. DEFINE BAGGING AND BOOTSTRAPPING. DEFINE RANDOM FOREST MODELS* 
+*DEFINE CROSS-VALIDATION* 
+*DEFINE IMPORTANCE OF NULL MODEL TO COMPARE RESULTS* 
+
+*INCLUDE CITATIONS OF CHAPTER 9,10,11 OF HMLR LINKED IN "MANY TREE MODELS" SECTION OF CONTENT FOLDER 11* 
+
+
+## Evaluation of Models 
+
+Root Mean Squared Error (RMSE) is a common metric used to evaluate regression models. The RMSE is formally defined as the square root of the mean square of all error and is defined by the following formula: *Include LaTeX equation of RMSE?* . It is important that while RMSE is scale dependent, common practice notes that low RMSE values indicate stronger model performance. 
+
+## Software Used for Analyses 
+
+This analysis was conducted under R version 4.3.1 on a MacOS operating system *cite R*. The following R packages were used in the development of these analyses: *R PACKAGES USED: here, skimr, broom, tidyverse, ggplot2, dplyr, corrplot, ranger, vip* 
+All processing and analysis code can be found in the Supplementary Material file. 
+
+# Results (4)
+
+## Outcomes of Interest
+
+The 'Quality of Sleep' variable has been selected as our outcome of interest. It is important to note that this variable is a subjective measure of a participant's self-reported sleep quality. The following plot shows that most of subjects reported a sleep quality score of 8 (out of 10). *REFERENCE SLEEP_DIS PLOT FROM EDA.QMD FILE*  
+
+## Exploratory Findings
+
+
+
+## Machine Learning Models 
+
+A variable importance plot (VIP) was constructed to determine which variables had the strongest impact in our Random Forest Model. *INCLUDE PLOT HERE* Sleep Duration, Stress Level, and Age had the highest levels of importance in our model. Physical Activity Level was excluded entirely, which was to be expected given our exploratory data analysis and simple linear regression models. 
+
+*Include comparison of RF Model and null model*
+
+
+
+# Discussion
+
+*PART 5*
+
+## Summary
+
+*PART 5*
+
+## Strengths and Limitations
+
+*PART 5*
+
+*Include that all parameters were self-reported and thus subjected to bias* 
+
+## Conclusion 
+
+*PART 5* 
+
+
+{{< pagebreak >}}
+
+
+
+# References 
+
+*INCLUDE INCREMENTALLY -- FINALIZE* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*ANYTHING BELOW THIS COMMENT IS FROM PRIOR TO THE OVERHAUL AND IS STILL TO BE IGNORED / MOVED TO ANOTHER SECTION OF THE PROJECT* 
 
 ## Questions/Hypotheses to be addressed
 
-We want to explore the influence of each variable on sleep quality and identify which ones seem to have the most impact (both positive and negative). We also wish to explore if certain variables affect male sleep quality more than females. If time allows, we'd also like to see if certain ages seem to be affected by certain variables more often than others. We can focus on every predictor in the dataset since there are only 13. 
+We intend to explore the influence of each variable on sleep quality and identify which ones seem to have the most impact (both positive and negative). We also wish to explore if certain variables affect male sleep quality more than females. If time allows, we'd also like to see if certain ages seem to be affected by certain variables more often than others. We can focus on every predictor in the dataset since there are only 13. 
 
 We can likely use GLMs and t-tests/ANOVA tests to see the significance that variables may have in different combinations on an individual's sleep quality. Heat maps and various plots will also help with exploratory data analysis. We aren't exceptionally experienced with statistical analyses, but these are what we can think of at the moment.
 
@@ -52,14 +182,10 @@ We can likely use GLMs and t-tests/ANOVA tests to see the significance that vari
 {{< pagebreak >}}
 
 
-# Methods 
-
-  ** NEED TO INSERT ** 
-
 
 ## Data import
 
-We'll load in the cleaned data here. Please see the eda.qmd file for full exploratory results and the cleaning process.
+We'll load in the cleaned data here. Please reference the eda.qmd and Supplementary-Material.qmd files for full exploratory results and the cleaning process.
 
 ```{r Loading the Processed Data}
 #load the cleaned data
@@ -70,7 +196,7 @@ sleepdata<- readRDS(here("data","processed-data", "sleepdataprocessed.rds"))
 
 ## Statistical analysis
 
-We'll begin to look at some of the relationships between our variables now. Sleep Quality is our outcome of interest for all of these. We'll start with Phyiscal Activity level.
+We'll begin to look at some of the relationships between our variables now. Sleep Quality is our outcome of interest for all of these. We'll start with Physical Activity level.
 
 ```{r}
 ############################
@@ -160,6 +286,10 @@ Our model shows a strong relationship between age and quality of sleep. As Age i
 
 
 # Results
+
+## Outcomes of Interest 
+
+
 
 ## Exploratory/Descriptive analysis
 
@@ -257,7 +387,6 @@ ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
 
 The other plots were either self explanatory (e.g. Sleep Duration meant higher sleep quality) or had less defined trends (e.g. heart rate and daily steps).
 
-End of Project Part 2. 
 
 
 ## Basic statistical analysis

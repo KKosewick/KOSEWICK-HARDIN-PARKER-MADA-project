@@ -303,3 +303,16 @@ as.factor(sleepdata$Gender)
 saveRDS(sleepdata, file = "sleepdataprocessed.rds")
 ```
 
+Distribution of the outcome of interest, Quality of Sleep
+
+```{r}
+sleep_dis <- ggplot(sleepdata, aes(x = Quality.of.Sleep)) +
+  geom_histogram() +
+  stat_bin(bins = 15) +
+  theme_minimal()
+print(sleep_dis)
+
+summary(sleepdata$Quality.of.Sleep)
+
+```
+
