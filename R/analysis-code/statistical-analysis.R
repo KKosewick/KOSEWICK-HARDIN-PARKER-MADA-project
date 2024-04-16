@@ -13,7 +13,6 @@ library(ranger)
 library(vip)
 library(ggplot2)
 
-# Writing new dataframe, sleepdata, into a separate excel file to ensure reproducibility 
 
 ######################################
 # Fitting Models and Statistical Analysis # 
@@ -23,7 +22,7 @@ library(ggplot2)
 #### Fitting a model using Quality of Sleep as the outcome and Physical Activity Level as a predictor
 
 #Load the data
-sleepdata<- readRDS(here("data","processed-data","sleepdataprocessed.RDS"))
+sleepdata<- readRDS(here("data","processed-data","sleepdataprocessed.rds"))
 
 lmfit_quality_activity <- lm(Quality.of.Sleep ~ Physical.Activity.Level, sleepdata)  
 
@@ -219,7 +218,11 @@ continuous_vars <- sleepdatafinal[, c("Age", "Sleep.Duration", "Quality.of.Sleep
 correlation_matrix <- cor(continuous_vars)
 
 # Create a pairwise correlation plot (using corrplot)
-corrplot(correlation_matrix, method = "circle")
+correlation <- corrplot(correlation_matrix, method = "circle")
+
+#Save the correlation plot
+correlation = here("results", "figures", "correlation.rds")
+saveRDS(correlation, file = correlation)
 
 #It seems that stress level and quality of sleep are at an absolute value of 0.9 or higher on the correlation scale. 
 #Sleep Duration and stress level also seem closely tied. Stress level and quality of sleep are both subjective scales given by an individual; this is interesting to note.
@@ -267,6 +270,9 @@ tune_results_rf <- tune_grid(
 print(tune_results_rf)
 #Plot them too
 autoplot(tune_results_rf)
+#Save them
+tune_results_rf = here("results", "figures", "tune_results_rf.rds")
+saveRDS(tune_results_rf, file = tune_results_rf)
 
 #We've successfully fit our RF model; now, we can pick the different pieces apart and see what predictors seem the most important and which model is best.
 
@@ -284,6 +290,9 @@ fitted_model <- extract_fit_parsnip(final_fit)
 
 # Create a variable importance plot
 vip(fitted_model$fit)
+#Save it
+vip = here("results", "figures", "vip.rds")
+saveRDS(vip, file = vip)
 
 #We can see that sleep duration, stress level, and Age seem to have the most importance for our model.
 #PhysicalActivityLevel doesn't seem to have much of an impact on Quality of Sleep, as it was excluded from the variable importance plot altogether. These results are pretty in line with what we discovered
@@ -297,12 +306,15 @@ predictions <- predict(final_fit, new_data = sleepdatafinal)
 sleepdatafinal$Predicted <- predictions$.pred
 
 # Create an observed vs. predicted plot
-ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
+observed_vs_predicted <-ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
   geom_point() +
   geom_abline(color = "red") +
   labs(x = "Observed", y = "Predicted", title = "Observed vs. Predicted Plot") +
   theme_minimal()
 
+#Save it
+observed_vs_predicted = here("results", "figures", "observed_vs_predicted.rds")
+saveRDS(observed_vs_predicted, file = observed_vs_predicted)
 #This seems like a very solid fit; not too close to where overfitting is obvious, but not too far to where the predictions aren't useful either.
 
 ##############################
