@@ -16,11 +16,10 @@ editor:
 
 # Summary/Abstract (1)
 
-For our project, we obtained a dataset from Kaggle.com containing 373
-observations of 13 variables from a study on different factors that may
+For our project, we obtained a dataset from [Kaggle](https://www.kaggle.com/datasets) containing 373 observations of 13 variables from a study on different factors that may
 affect sleep quality. Variables of interest from the study included
-physical activity level, age, sex, occupation, stress, and several more.
-In RStudio (version 4.3), we used a combination of packages to create
+physical activity level, age, sex, occupation, stress, gender, BMI, blood pressure, and sleep duration.
+In [RStudio](https://posit.co/download/rstudio-desktop/) (version 4.3.1), we used a combination of packages to create
 models suitable for answering our primary question: which variables are
 most important for determining an individual's sleep quality and what
 effect do they have? After conducting an exploratory data analysis (EDA)
@@ -41,7 +40,6 @@ occupation were all supported as well. Overall, we determined that an
 individual's duration of sleep, stress level, and age are all key
 factors that can impact sleep quality.
 
-*Feel free to edit this Emma; I tried to include everything needed*
 
 # Introduction (2)
 
@@ -49,9 +47,9 @@ factors that can impact sleep quality.
 
 The data was obtained from kaggle.com at this
 [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data).
-It contains data from a study on individuals of different sexes and age
+The data contains observations from a study on individuals of varying sexes and age
 regarding their sleep quality and different variables that may affect
-this. We are unsure of where this data set came from and how it was
+this. We are unsure of where this data set came from and how the data were
 collected; the publisher on Kaggle has yet to respond to a comment with
 this question posted on March 5th 2024. Regardless, it contains
 interesting variables that have been shown in previous studies to have
@@ -59,8 +57,8 @@ an effect on sleep quality.
 
 For instance, in Sun et al. (2015), a sample of Chinese individuals
 showed a correlation between obesity and worsened sleep quality in men
-but not women. We are interested in seeing if this trend holds up for
-our dataset; given that most of the observations are of men, we expect
+but not women. We are interested in seeing if this trend in present in 
+our dataset; however, given that most of the observations are of men, we expect
 to see a correlation between lower sleep scores and obesity in our data.
 Furthermore, it has been shown that age and gender have a notable effect
 on sleep quality (Madrid-Valero et al. 2016). Women seem to experience a
@@ -77,16 +75,11 @@ al. 2010). Our dataset contains observations of mostly
 white-collar/service-based jobs, so we expect to find similar trends
 upon analysis.
 
-*NEED TO INSERT*
+Additionally, based on the findings of Sun et. al, that obesity can negatively impact sleep quality, we also expect that higher levels of blood pressure will result in poorer sleep quality. The American Sleep Foundation states that both short and long sleep duration increase risk of hypertension in adults (Li & Shang, 2021). This draws interesting focus to the circular nature of sleep quality and hypertension. Those with hypertension also face a higher risk of insomnia, a disorder affecting the ability to fall asleep, maintain sleep, and sleep without continuous disturbance (Liu et. al, 2022). Short sleep duration is also positively associated with stress level (APA, 2013). Survey findings indicate that the average American sleeps 6.7 hours per night, which is well below the minimum recommended duration seven to nine hours (APA, 2013). Similar to the relationship between hypertension and sleep quality, as stress level increases, sleep duration decreases thereby causing poorer sleep quality. Poorer sleep quality then leads to higher stress, greater risk of hypertension, and shorter sleep duration. 
 
-*EMMA'S SOURCES ARE LINKED HERE:*
+Engaging in physical activity has been suggested to improve both sleep quality and sleep duration. Regular moderate to intense physical activity stimulates an increase of melatonin production, a hormone that regulates sleep-wake cycles (Alnawwar et. al, 2023). Additionally, moderate to intense exercise has shown to have a positive effect on those with insomnia (Alnawwar et. al, 2023). Physical activity also reduces stress and improves both sleep quality and sleep efficiency (Alnawwar et. al, 2023). However, studies also show that frequent high-intensity workouts could lead to poorer sleep quality among people with and without insomnia (Alnawwar et. al, 2023). Studies indicate that consistent moderate exercise three to four times a week (approximately 150 minutes total) is the optimal weekly regimen to improve sleep quality and reduce stress. We expect to see similar trends with our data, where increased stress levels negatively impact sleep quality and sleep duration, while noticing a positive association between increased physical activity levels and sleep quality. 
 
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8345503/ --\> blood
-pressure and sleep
-https://www.apa.org/news/press/releases/stress/2013/sleep --\> sleep
-duration & stress on sleep quality
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10503965/#:\~:text=Regular%20physical%20activity%20can%20lead,managing%20sleep%20disorders%20like%20insomnia.
---\> physical activity and sleep quality
+
 
 {{< pagebreak >}}
 
@@ -100,16 +93,15 @@ sleep quality. The curators of the dataset did not provide information
 on how or where this data was collected, so we solely relied on the
 codebook for variable definitions. There were no missing values or
 erroneous variables in the dataset that we needed to remove. The
-"Blood.Pressure" variable was transformed to reflect the systolic and
+"Blood.Pressure" variable was transformed to reflect the individual systolic and
 diastolic blood pressure measurements from each subject. We then chose
 to add an additional variable, labeled 'cat_bp' to reflect the
-categorical blood pressure status of a subject based on the [*American
+categorical blood pressure status of a subject based on the [American
 Heart Association
-guidelines*](https://www.heart.org/en/health-topics/high-blood-pressure).
+guidelines](https://www.heart.org/en/health-topics/high-blood-pressure).
 Additionally we created a variable, 'StepsGroup' to determine the
 categorical activity level of subjects in the dataset based on these
-guidelines provided by 10,000 steps [*10,000
-steps.org*](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)*.*
+guidelines provided by [10,000 steps.org] (https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
 Finally, we created an additional categorical variable,
 'PhysicalActivityGroup' based on 30 minute increments, to categorically
 represent the level of physical activity reported by a subject. The
@@ -227,9 +219,9 @@ sufficiently predict sleep quality using unseen data.
 ## Software Used for Analyses
 
 This analysis was conducted under R version 4.3.1 on a MacOS operating
-system *cite R*. The following R packages were used in the development
-of these analyses: *R PACKAGES USED: here, skimr, broom, tidyverse,
-ggplot2, dplyr, corrplot, ranger, vip* All processing and analysis code
+system. The following R packages were used in the development
+of these analyses:here, skimr, broom, tidyverse,
+ggplot2, dplyr, corrplot, ranger, and vip. All processing and analysis code
 can be found in the Supplementary Material file.
 
 # Results (4)
@@ -249,7 +241,10 @@ dataset.](images/unnamed-chunk-17-1.png)
 
 ## Machine Learning Models
 
-*To Emma: did you want this text in both places you placed it?* A
+*To Emma: did you want this text in both places you placed it?*
+*To Kevin: I placed in both sections as a placeholder, whichever you think is best!* 
+
+A
 variable importance plot (VIP) was constructed to determine which
 variables had the strongest impact in our Random Forest Model. *INCLUDE
 PLOT HERE* Sleep Duration, Stress Level, and Age had the highest levels
@@ -295,3 +290,18 @@ place for men)
 https://academic.oup.com/sleep/article/33/2/149/2454438#77919376 --\>
 sleep quality by occupation/industry (managerial positions had the worst
 score)
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8345503/ --\> blood
+pressure and sleep
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9815923/#:~:text=Patients%20with%20hypertension%20commonly%20complain,an%20increased%20risk%20of%20insomnia. --\> hypertension and insomnia
+
+https://www.apa.org/news/press/releases/stress/2013/sleep --\> sleep
+duration & stress on sleep quality
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10503965/#:\~:text=Regular%20physical%20activity%20can%20lead,managing%20sleep%20disorders%20like%20insomnia.
+--\> physical activity and sleep quality
+
+https://www.heart.org/en/health-topics/high-blood-pressure 
+
+https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500 
