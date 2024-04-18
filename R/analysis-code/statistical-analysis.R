@@ -270,9 +270,6 @@ tune_results_rf <- tune_grid(
 print(tune_results_rf)
 #Plot them too
 autoplot(tune_results_rf)
-#Save them
-tune_results_rf = here("results", "figures", "tune_results_rf.rds")
-saveRDS(tune_results_rf, file = tune_results_rf)
 
 #We've successfully fit our RF model; now, we can pick the different pieces apart and see what predictors seem the most important and which model is best.
 
@@ -290,9 +287,6 @@ fitted_model <- extract_fit_parsnip(final_fit)
 
 # Create a variable importance plot
 vip(fitted_model$fit)
-#Save it
-vip = here("results", "figures", "vip.rds")
-saveRDS(vip, file = vip)
 
 #We can see that sleep duration, stress level, and Age seem to have the most importance for our model.
 #PhysicalActivityLevel doesn't seem to have much of an impact on Quality of Sleep, as it was excluded from the variable importance plot altogether. These results are pretty in line with what we discovered
@@ -306,16 +300,30 @@ predictions <- predict(final_fit, new_data = sleepdatafinal)
 sleepdatafinal$Predicted <- predictions$.pred
 
 # Create an observed vs. predicted plot
-observed_vs_predicted <-ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
+ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
   geom_point() +
   geom_abline(color = "red") +
   labs(x = "Observed", y = "Predicted", title = "Observed vs. Predicted Plot") +
   theme_minimal()
 
-#Save it
-observed_vs_predicted = here("results", "figures", "observed_vs_predicted.rds")
-saveRDS(observed_vs_predicted, file = observed_vs_predicted)
+#Now we'll calculate the RMSE and R squared values of our "best" set of parameters
+# Calculate residuals
+residuals <- sleepdatafinal$Quality.of.Sleep - predictions$.pred
+
+ # Calculate RMSE
+ rf_rmse <- sqrt(mean(residuals^2))
+
+ # Calculate R squared
+ sst <- sum((sleepdatafinal$Quality.of.Sleep - mean(sleepdatafinal$Quality.of.Sleep))^2)
+ssr <- sum(residuals^2)
+rf_r_squared <- 1 - (ssr / sst)
+
+#print results
+print(rf_rmse)
+print(rf_r_squared)
+
 #This seems like a very solid fit; not too close to where overfitting is obvious, but not too far to where the predictions aren't useful either.
+#The RMSE is extremely low (.059) and the R squared is extremely high (0.997). This is a good indicator that our selected model is powerful.
 
 ##############################
 #### Creating a "null" model and comparing our RF results 
@@ -327,7 +335,7 @@ null_mod <- null_model() %>%
   set_engine("parsnip") %>%
   set_mode("regression")
 
-# Fit the null model to your data
+# Fit the null model to the data
 null_fit <- fit(null_mod, Quality.of.Sleep ~ 1, data = sleepdatafinal)
 
 # Make predictions
@@ -342,5 +350,43 @@ null_rmse <- rmse(data_with_predictions, truth = Quality.of.Sleep, estimate = .p
 # Print the RMSE
 print(null_rmse)
 
-#This RMSE is a good bit higher than the 0.2-0.32 range of our Random Forest models. This is a good sign that the RF model performs well on the data.
+#This RMSE is a good bit higher than the 0.2-0.32 range of all of our Random Forest models. This is a good sign that the RF model performs well on the data.
+
+# Compute R-squared
+r_squared <- rsq(data_with_predictions, truth = Quality.of.Sleep, estimate = .pred)
+
+# Print the R-squared
+print(r_squared)
+
+# Create a predicted v observed plot
+ggplot(data_with_predictions, aes(x = Quality.of.Sleep, y = .pred)) +
+  geom_point() +
+  geom_abline(color = "red") +
+  labs(x = "Observed", y = "Predicted", title = "Observed vs Predicted Null Values") +
+  theme_minimal()
+
+#since there is no variation between the model predictions and the observed values in a null model, 
+#the R squared is not possible to generate. The observed vs predicted plot is also as expected; a straight line of predictions that all match the average sleep quality score.
+#Now we'll make a table for the manuscript comparing the metrics we generated
+
+#extract the metric values for the null model from the objects they're stored in
+null_rmse_value <- null_rmse$.estimate
+null_r_squared_value <- r_squared$.estimate
+
+# Load the package
+library(gt)
+
+# Create a data frame
+results <- data.frame(
+  Model = c("Random Forest", "Null Model"),
+  `R-squared` = c(rf_r_squared, null_r_squared_value),  # use the extracted value
+  RMSE = c(rf_rmse, null_rmse_value)  # use the extracted value
+)
+
+# Create the table
+gt_table <- gt(results) 
+
+# Print the table
+print(gt_table)
+
 
