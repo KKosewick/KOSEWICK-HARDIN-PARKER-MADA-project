@@ -201,6 +201,52 @@ saveRDS(lmtable_quality_occupation, file = lmtable_quality_occupation)
 # Engineers seem to have the best sleep quality score; they're predicted to have a score of about 8.3 (with strong p-values and t-statistics). Scientists seem to have the worst score; they're predicted to have 2 points lower sleep quality than our intercept. The t-statistic and p-value are both strong for this group.
 # Lawyers fall in the middle, having a decent increase in sleep quality compared to the intercept and solid p-values and t-statistics to support this.
 
+#Now we'll create a table that combines all of these results to put in the manuscript.
+# List of all models
+models <- list(
+  PhysicalActivity = lmfit_quality_activity,
+  Occupation = lmfit_quality_occupation,
+  Age = lmfit_quality_age,
+  StressLevel = lmfit_quality_stress,
+  Hypertension = lmfit_quality_BP,
+  SleepDuration = lmfit_quality_duration,
+  BMI = lmfit_quality_BMI,
+  Gender_and_Age = lmfit_quality_gender_age
+)
+
+# Empty data frame to store results
+all_results <- data.frame()
+
+# Loop through each model, tidy the results, and bind to all_results
+for(i in 1:length(models)) {
+  model_name <- names(models)[i]
+  model_results <- broom::tidy(models[[i]])
+  model_results$model <- model_name  # add a column to identify the model
+  all_results <- rbind(all_results, model_results)
+}
+
+# Now all_results contains the combined results of all models
+print(all_results)
+
+# Save the combined results table
+all_results_path = here("results", "tables", "all_results.rds")
+saveRDS(all_results, file = all_results_path)
+
+# Load the package
+library(flextable)
+
+# Transform p-values to scientific notation
+all_results$p.value <- format(all_results$p.value, scientific = TRUE, digits = 2)
+
+# Create a flextable
+ft <- flextable::flextable(all_results)
+
+# Print the table
+print(ft)
+
+# Save the flextable as an image
+flextable::save_as_image(ft, path = "table.png")
+
 ##############################
 #### Now we'll remove unnecessary variables (e.g. ones we've feature engineered into more useful ones) to make our analyses easier.
 
@@ -379,8 +425,8 @@ library(gt)
 # Create a data frame
 results <- data.frame(
   Model = c("Random Forest", "Null Model"),
-  `R-squared` = c(rf_r_squared, null_r_squared_value),  # use the extracted value
-  RMSE = c(rf_rmse, null_rmse_value)  # use the extracted value
+  `R-squared` = c(rf_r_squared, null_r_squared_value),
+  RMSE = c(rf_rmse, null_rmse_value)
 )
 
 # Create the table
