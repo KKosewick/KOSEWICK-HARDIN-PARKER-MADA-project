@@ -8,7 +8,7 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../manuscript/dataanalysis-references.bib
+bibliography: ../manuscript/references_sleepdata.bib
 editor: 
   markdown: 
     wrap: 72
@@ -395,6 +395,5 @@ variables dealing with physical, mental, and environmental factors.
 
 # References
 
-*INCLUDED IN .BIB FILE* 
-*IF ANYONE HAS TIPS ON HOW TO GET THE REFERENCES IN THE MANUSCRIPT ITSELF PLEASE HELP!* 
+
 
