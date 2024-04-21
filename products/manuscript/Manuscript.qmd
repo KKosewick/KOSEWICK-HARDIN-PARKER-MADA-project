@@ -395,32 +395,6 @@ variables dealing with physical, mental, and environmental factors.
 
 # References
 
-*INCLUDE INCREMENTALLY -- FINALIZE*
+*INCLUDED IN .BIB FILE* 
+*IF ANYONE HAS TIPS ON HOW TO GET THE REFERENCES IN THE MANUSCRIPT ITSELF PLEASE HELP!* 
 
-https://link.springer.com/article/10.1007/s11325-015-1193-z --\> obesity
-and sleep quality (affects men but not women in China)
-
-https://www.scielosp.org/article/gs/2017.v31n1/18-22/en/?uid=680b54f39b#
---\> effect of age and gender on sleep quality (women worse than men,
-sleep quality deteriorates with age in women but is a bit all over the
-place for men)
-
-https://academic.oup.com/sleep/article/33/2/149/2454438#77919376 --\>
-sleep quality by occupation/industry (managerial positions had the worst
-score)
-
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8345503/ --\> blood
-pressure and sleep
-
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9815923/#:\~:text=Patients%20with%20hypertension%20commonly%20complain,an%20increased%20risk%20of%20insomnia.
---\> hypertension and insomnia
-
-https://www.apa.org/news/press/releases/stress/2013/sleep --\> sleep
-duration & stress on sleep quality
-
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10503965/#:\~:text=Regular%20physical%20activity%20can%20lead,managing%20sleep%20disorders%20like%20insomnia.
---\> physical activity and sleep quality
-
-https://www.heart.org/en/health-topics/high-blood-pressure
-
-https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:\~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500
