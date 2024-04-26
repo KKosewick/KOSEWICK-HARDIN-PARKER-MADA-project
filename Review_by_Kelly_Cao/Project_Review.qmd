@@ -1,0 +1,188 @@
+---
+title: Project Review 
+author: Kelly Cao
+date: 04/26/2024
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: An Analysis of Health & Lifestyle Factors Associated with Sleep Quality
+
+Name of project author(s): Kevin Kosewick and Emma Hardin-Parker
+
+Name of project reviewer: Kelly Cao
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+The background was well described with plenty of notable references. It's comprehensive and pairs well with the study you guys implemented. Your background clearly note the important predictors for sleep quality, while also pairing it with many references to different studies. 
+
+Although, I did have some confusion with how you mentioned conflicting references at the end. Perhaps, you can bring some more clarity for the direction you wish to support or if that's another question you wish to answer. 
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+
+### Feedback and Comments
+
+While reading you background, I understand you guys were hoping to study the relationship between the many predictors listed and quality of sleep. This was easily determined. 
+
+### Summary assessment
+* question/hypotheses fully clear
+
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+Although it is unfortunate you guys were unable to determine the source of the data set, you guys clearly noted where in Kaggle you discovered it and why you still proceeded to use this set. I note that you guys mentioned a codebook in your manuscript, but I was unable to find it in your repository or in the Kaggle link provided. 
+
+### Summary assessment
+* source and overall structure of data somewhat explained
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+It appears that the raw data set was fairly clean from the get-go. You guys clearly documented any changes you made to it and the new variables added. I would suggest cleaning up some of the formatting issue in your data section, as it made it somewhat difficult to read. 
+
+### Summary assessment
+* essentially no weaknesses in wrangling and exploratory component
+
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+You guys used the appropriate models for the study. The dataset is well-suited for Random Forest (RF) analysis, especially considering its classification nature, which aligns perfectly with the strengths of RF in handling such problems. Additionally, the use of the simple linear regression model was a great step in determining major predictors to focus on.
+
+### Summary assessment
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+The figures and tables are super clear and easy to read. I felt that you chose the best images to represent the data and the analysis you provided. 
+
+I particularly enjoyed the colinearity plot and the observed vs prediction plots, as I felt they provided the most information. 
+
+### Summary assessment
+* results are very well presented
+
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+The strengths and limitations were clearly mentioned. The limitation being the dataset, and the strength being the easy and clear interpretation of the data set. 
+
+### Summary assessment
+* strong, complete and clear discussion
+
+
+## Further comments
+It appears that the project is practically finished. You guys just need to clean up your manuscript and include the references. 
+
+
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+The repository was clean and neat. The README files were clear in the description. The files were reasonably named. It seems all of the junk files were properly removed. 
+
+### Summary assessment
+* well structured
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+It appears everything is properly documented. Your code was easy to follow. As a personal preference, I would enjoy having the statistical analysis be performed in a quarto document, as it would allow me to render and view it in a more digestable format. 
+
+### Summary assessment
+* fully and well documented
+
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+All of the major components of your project was easily reproducible. I started off the review by quickly running through each of your codes and major documents to see if it would run and render. However, since you mentioned your Supplementary-Material.qmd in a README.qmd, I went to see it and ran into a problem of rendering it and got this error: 
+
+```
+processing file: Supplementary-Material.qmd
+  |....                                               |   8% [unnamed-chunk-2] 
+Quitting from lines 73-74 [unnamed-chunk-2] (Supplementary-Material.qmd)
+Error:
+! object 'sleepdata' not found
+Backtrace:
+ 1. base::print(sum(is.na(sleepdata)))
+                                                                                                             
+Execution halted
+```
+
+If you are showing supplementary exploratory analysis, I would recommend using the `read_chunk()` function, as it will allow you to pull specific lines from a .R script with some specific formatting. If that wasn't the intended goal, I would also suggest you saving the data-frame/data-set you intend to work across different files, as it would make things easier for other people to access. The error seems to indicate that the object you are referencing is not found in the environment we are working with.
+
+I'm not sure if this was an issue on my end, but when attempting to source your analysis .R script, this error would pop up: 
+
+```
++ library(broo .... [TRUNCATED] 
+Error in -library(broom) : invalid argument to unary operator
+```
+The other lines after that ran perfectly fine.
+
+Other than that, all of the remaining codes and documents ran easily and matched the .html output file. 
+
+### Summary assessment
+* fully reproducible without issues
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+The study was performed very well, but I imagine it can be strengthened further with additional analysis, using different models for comparison. I would also like to see further assessment on your model with cross validation studies to further prove the robustness of your model. 
+
+Despite that, I felt the hypotheses were addressed properly. 
+
+### Summary assessment
+* decent level of thoroughness
+
+
+
+## Further comments
+Minor issues noted above: 
+
+ - Formatting issue in data section of manuscript
+ - References in manuscript
+ - Supplementary markdown file 
+ - Missing codebook
+
+Overall, I felt the study was thorough and nicely documented. Everything was easy to follow, and there were little to no issue with going through your repository. 
+
+
+
