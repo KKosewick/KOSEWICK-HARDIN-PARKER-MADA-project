@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kelly Cao">
+<meta name="dcterms.date" content="2024-04-26">
+
+<title>Project Review</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Project_Review_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Project_Review_files/libs/quarto-html/quarto.js"></script>
+<script src="Project_Review_files/libs/quarto-html/popper.min.js"></script>
+<script src="Project_Review_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Project_Review_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Project_Review_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Project_Review_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Project_Review_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Project_Review_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Project_Review_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a>
+  <ul class="collapse">
+  <li><a href="#background-context-and-motivation" id="toc-background-context-and-motivation" class="nav-link" data-scroll-target="#background-context-and-motivation"><span class="header-section-number">1.1</span> Background, Context and Motivation</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments" id="toc-feedback-and-comments" class="nav-link" data-scroll-target="#feedback-and-comments"><span class="header-section-number">1.1.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-pick-one-delete-the-others" id="toc-summary-assessment-pick-one-delete-the-others" class="nav-link" data-scroll-target="#summary-assessment-pick-one-delete-the-others"><span class="header-section-number">1.1.2</span> Summary assessment (PICK ONE, DELETE THE OTHERS)</a></li>
+  </ul></li>
+  <li><a href="#question-description" id="toc-question-description" class="nav-link" data-scroll-target="#question-description"><span class="header-section-number">1.2</span> Question description</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-1" id="toc-feedback-and-comments-1" class="nav-link" data-scroll-target="#feedback-and-comments-1"><span class="header-section-number">1.2.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment" id="toc-summary-assessment" class="nav-link" data-scroll-target="#summary-assessment"><span class="header-section-number">1.2.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#data-description" id="toc-data-description" class="nav-link" data-scroll-target="#data-description"><span class="header-section-number">1.3</span> Data description</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-2" id="toc-feedback-and-comments-2" class="nav-link" data-scroll-target="#feedback-and-comments-2"><span class="header-section-number">1.3.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-1" id="toc-summary-assessment-1" class="nav-link" data-scroll-target="#summary-assessment-1"><span class="header-section-number">1.3.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#data-wrangling-and-exploratory-analysis" id="toc-data-wrangling-and-exploratory-analysis" class="nav-link" data-scroll-target="#data-wrangling-and-exploratory-analysis"><span class="header-section-number">1.4</span> Data wrangling and exploratory analysis</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-3" id="toc-feedback-and-comments-3" class="nav-link" data-scroll-target="#feedback-and-comments-3"><span class="header-section-number">1.4.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-2" id="toc-summary-assessment-2" class="nav-link" data-scroll-target="#summary-assessment-2"><span class="header-section-number">1.4.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#appropriateness-of-analysis" id="toc-appropriateness-of-analysis" class="nav-link" data-scroll-target="#appropriateness-of-analysis"><span class="header-section-number">1.5</span> Appropriateness of Analysis</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-4" id="toc-feedback-and-comments-4" class="nav-link" data-scroll-target="#feedback-and-comments-4"><span class="header-section-number">1.5.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-3" id="toc-summary-assessment-3" class="nav-link" data-scroll-target="#summary-assessment-3"><span class="header-section-number">1.5.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#presentation" id="toc-presentation" class="nav-link" data-scroll-target="#presentation"><span class="header-section-number">1.6</span> Presentation</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-5" id="toc-feedback-and-comments-5" class="nav-link" data-scroll-target="#feedback-and-comments-5"><span class="header-section-number">1.6.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-4" id="toc-summary-assessment-4" class="nav-link" data-scroll-target="#summary-assessment-4"><span class="header-section-number">1.6.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#discussionconclusions" id="toc-discussionconclusions" class="nav-link" data-scroll-target="#discussionconclusions"><span class="header-section-number">1.7</span> Discussion/Conclusions</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-6" id="toc-feedback-and-comments-6" class="nav-link" data-scroll-target="#feedback-and-comments-6"><span class="header-section-number">1.7.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-5" id="toc-summary-assessment-5" class="nav-link" data-scroll-target="#summary-assessment-5"><span class="header-section-number">1.7.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#further-comments" id="toc-further-comments" class="nav-link" data-scroll-target="#further-comments"><span class="header-section-number">1.8</span> Further comments</a></li>
+  <li><a href="#structure" id="toc-structure" class="nav-link" data-scroll-target="#structure"><span class="header-section-number">1.9</span> Structure</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-7" id="toc-feedback-and-comments-7" class="nav-link" data-scroll-target="#feedback-and-comments-7"><span class="header-section-number">1.9.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-6" id="toc-summary-assessment-6" class="nav-link" data-scroll-target="#summary-assessment-6"><span class="header-section-number">1.9.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation"><span class="header-section-number">1.10</span> Documentation</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-8" id="toc-feedback-and-comments-8" class="nav-link" data-scroll-target="#feedback-and-comments-8"><span class="header-section-number">1.10.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-7" id="toc-summary-assessment-7" class="nav-link" data-scroll-target="#summary-assessment-7"><span class="header-section-number">1.10.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">1.11</span> Reproducibility</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-9" id="toc-feedback-and-comments-9" class="nav-link" data-scroll-target="#feedback-and-comments-9"><span class="header-section-number">1.11.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-8" id="toc-summary-assessment-8" class="nav-link" data-scroll-target="#summary-assessment-8"><span class="header-section-number">1.11.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#thoroughness" id="toc-thoroughness" class="nav-link" data-scroll-target="#thoroughness"><span class="header-section-number">1.12</span> Thoroughness</a>
+  <ul class="collapse">
+  <li><a href="#feedback-and-comments-10" id="toc-feedback-and-comments-10" class="nav-link" data-scroll-target="#feedback-and-comments-10"><span class="header-section-number">1.12.1</span> Feedback and Comments</a></li>
+  <li><a href="#summary-assessment-9" id="toc-summary-assessment-9" class="nav-link" data-scroll-target="#summary-assessment-9"><span class="header-section-number">1.12.2</span> Summary assessment</a></li>
+  </ul></li>
+  <li><a href="#further-comments-1" id="toc-further-comments-1" class="nav-link" data-scroll-target="#further-comments-1"><span class="header-section-number">1.13</span> Further comments</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Review</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kelly Cao </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 26, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Overview</h1>
+<p>Title of project: An Analysis of Health &amp; Lifestyle Factors Associated with Sleep Quality</p>
+<p>Name of project author(s): Kevin Kosewick and Emma Hardin-Parker</p>
+<p>Name of project reviewer: Kelly Cao</p>
+<section id="background-context-and-motivation" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="background-context-and-motivation"><span class="header-section-number">1.1</span> Background, Context and Motivation</h2>
+<p>How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?</p>
+<section id="feedback-and-comments" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="feedback-and-comments"><span class="header-section-number">1.1.1</span> Feedback and Comments</h3>
+<p>The background was well described with plenty of notable references. It’s comprehensive and pairs well with the study you guys implemented. Your background clearly note the important predictors for sleep quality, while also pairing it with many references to different studies.</p>
+<p>Although, I did have some confusion with how you mentioned conflicting references at the end. Perhaps, you can bring some more clarity for the direction you wish to support or if that’s another question you wish to answer.</p>
+</section>
+<section id="summary-assessment-pick-one-delete-the-others" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="summary-assessment-pick-one-delete-the-others"><span class="header-section-number">1.1.2</span> Summary assessment (PICK ONE, DELETE THE OTHERS)</h3>
+<ul>
+<li>strong contextualization and motivation</li>
+</ul>
+</section>
+</section>
+<section id="question-description" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="question-description"><span class="header-section-number">1.2</span> Question description</h2>
+<p>How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?</p>
+<section id="feedback-and-comments-1" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="feedback-and-comments-1"><span class="header-section-number">1.2.1</span> Feedback and Comments</h3>
+<p>While reading you background, I understand you guys were hoping to study the relationship between the many predictors listed and quality of sleep. This was easily determined.</p>
+</section>
+<section id="summary-assessment" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="summary-assessment"><span class="header-section-number">1.2.2</span> Summary assessment</h3>
+<ul>
+<li>question/hypotheses fully clear</li>
+</ul>
+</section>
+</section>
+<section id="data-description" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="data-description"><span class="header-section-number">1.3</span> Data description</h2>
+<p>How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is?</p>
+<section id="feedback-and-comments-2" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="feedback-and-comments-2"><span class="header-section-number">1.3.1</span> Feedback and Comments</h3>
+<p>Although it is unfortunate you guys were unable to determine the source of the data set, you guys clearly noted where in Kaggle you discovered it and why you still proceeded to use this set. I note that you guys mentioned a codebook in your manuscript, but I was unable to find it in your repository or in the Kaggle link provided.</p>
+</section>
+<section id="summary-assessment-1" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="summary-assessment-1"><span class="header-section-number">1.3.2</span> Summary assessment</h3>
+<ul>
+<li>source and overall structure of data somewhat explained</li>
+</ul>
+</section>
+</section>
+<section id="data-wrangling-and-exploratory-analysis" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="data-wrangling-and-exploratory-analysis"><span class="header-section-number">1.4</span> Data wrangling and exploratory analysis</h2>
+<p>How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g.&nbsp;in the supplementary materials)?</p>
+<section id="feedback-and-comments-3" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="feedback-and-comments-3"><span class="header-section-number">1.4.1</span> Feedback and Comments</h3>
+<p>It appears that the raw data set was fairly clean from the get-go. You guys clearly documented any changes you made to it and the new variables added. I would suggest cleaning up some of the formatting issue in your data section, as it made it somewhat difficult to read.</p>
+</section>
+<section id="summary-assessment-2" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="summary-assessment-2"><span class="header-section-number">1.4.2</span> Summary assessment</h3>
+<ul>
+<li>essentially no weaknesses in wrangling and exploratory component</li>
+</ul>
+</section>
+</section>
+<section id="appropriateness-of-analysis" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="appropriateness-of-analysis"><span class="header-section-number">1.5</span> Appropriateness of Analysis</h2>
+<p>Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g.&nbsp;performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?</p>
+<section id="feedback-and-comments-4" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="feedback-and-comments-4"><span class="header-section-number">1.5.1</span> Feedback and Comments</h3>
+<p>You guys used the appropriate models for the study. The dataset is well-suited for Random Forest (RF) analysis, especially considering its classification nature, which aligns perfectly with the strengths of RF in handling such problems. Additionally, the use of the simple linear regression model was a great step in determining major predictors to focus on.</p>
+</section>
+<section id="summary-assessment-3" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="summary-assessment-3"><span class="header-section-number">1.5.2</span> Summary assessment</h3>
+<ul>
+<li>strong and reasonable analysis</li>
+</ul>
+</section>
+</section>
+<section id="presentation" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="presentation"><span class="header-section-number">1.6</span> Presentation</h2>
+<p>How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality?</p>
+<section id="feedback-and-comments-5" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="feedback-and-comments-5"><span class="header-section-number">1.6.1</span> Feedback and Comments</h3>
+<p>The figures and tables are super clear and easy to read. I felt that you chose the best images to represent the data and the analysis you provided.</p>
+<p>I particularly enjoyed the colinearity plot and the observed vs prediction plots, as I felt they provided the most information.</p>
+</section>
+<section id="summary-assessment-4" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="summary-assessment-4"><span class="header-section-number">1.6.2</span> Summary assessment</h3>
+<ul>
+<li>results are very well presented</li>
+</ul>
+</section>
+</section>
+<section id="discussionconclusions" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="discussionconclusions"><span class="header-section-number">1.7</span> Discussion/Conclusions</h2>
+<p>Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?</p>
+<section id="feedback-and-comments-6" class="level3" data-number="1.7.1">
+<h3 data-number="1.7.1" class="anchored" data-anchor-id="feedback-and-comments-6"><span class="header-section-number">1.7.1</span> Feedback and Comments</h3>
+<p>The strengths and limitations were clearly mentioned. The limitation being the dataset, and the strength being the easy and clear interpretation of the data set.</p>
+</section>
+<section id="summary-assessment-5" class="level3" data-number="1.7.2">
+<h3 data-number="1.7.2" class="anchored" data-anchor-id="summary-assessment-5"><span class="header-section-number">1.7.2</span> Summary assessment</h3>
+<ul>
+<li>strong, complete and clear discussion</li>
+</ul>
+</section>
+</section>
+<section id="further-comments" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="further-comments"><span class="header-section-number">1.8</span> Further comments</h2>
+<p>It appears that the project is practically finished. You guys just need to clean up your manuscript and include the references.</p>
+</section>
+<section id="structure" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="structure"><span class="header-section-number">1.9</span> Structure</h2>
+<p>Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all “junk” files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?</p>
+<section id="feedback-and-comments-7" class="level3" data-number="1.9.1">
+<h3 data-number="1.9.1" class="anchored" data-anchor-id="feedback-and-comments-7"><span class="header-section-number">1.9.1</span> Feedback and Comments</h3>
+<p>The repository was clean and neat. The README files were clear in the description. The files were reasonably named. It seems all of the junk files were properly removed.</p>
+</section>
+<section id="summary-assessment-6" class="level3" data-number="1.9.2">
+<h3 data-number="1.9.2" class="anchored" data-anchor-id="summary-assessment-6"><span class="header-section-number">1.9.2</span> Summary assessment</h3>
+<ul>
+<li>well structured</li>
+</ul>
+</section>
+</section>
+<section id="documentation" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="documentation"><span class="header-section-number">1.10</span> Documentation</h2>
+<p>How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files?</p>
+<section id="feedback-and-comments-8" class="level3" data-number="1.10.1">
+<h3 data-number="1.10.1" class="anchored" data-anchor-id="feedback-and-comments-8"><span class="header-section-number">1.10.1</span> Feedback and Comments</h3>
+<p>It appears everything is properly documented. Your code was easy to follow. As a personal preference, I would enjoy having the statistical analysis be performed in a quarto document, as it would allow me to render and view it in a more digestable format.</p>
+</section>
+<section id="summary-assessment-7" class="level3" data-number="1.10.2">
+<h3 data-number="1.10.2" class="anchored" data-anchor-id="summary-assessment-7"><span class="header-section-number">1.10.2</span> Summary assessment</h3>
+<ul>
+<li>fully and well documented</li>
+</ul>
+</section>
+</section>
+<section id="reproducibility" class="level2" data-number="1.11">
+<h2 data-number="1.11" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">1.11</span> Reproducibility</h2>
+<p>Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?</p>
+<section id="feedback-and-comments-9" class="level3" data-number="1.11.1">
+<h3 data-number="1.11.1" class="anchored" data-anchor-id="feedback-and-comments-9"><span class="header-section-number">1.11.1</span> Feedback and Comments</h3>
+<p>All of the major components of your project was easily reproducible. I started off the review by quickly running through each of your codes and major documents to see if it would run and render. However, since you mentioned your Supplementary-Material.qmd in a README.qmd, I went to see it and ran into a problem of rendering it and got this error:</p>
+<pre><code>processing file: Supplementary-Material.qmd
+  |....                                               |   8% [unnamed-chunk-2] 
+Quitting from lines 73-74 [unnamed-chunk-2] (Supplementary-Material.qmd)
+Error:
+! object 'sleepdata' not found
+Backtrace:
+ 1. base::print(sum(is.na(sleepdata)))
+                                                                                                             
+Execution halted</code></pre>
+<p>If you are showing supplementary exploratory analysis, I would recommend using the <code>read_chunk()</code> function, as it will allow you to pull specific lines from a .R script with some specific formatting. If that wasn’t the intended goal, I would also suggest you saving the data-frame/data-set you intend to work across different files, as it would make things easier for other people to access. The error seems to indicate that the object you are referencing is not found in the environment we are working with.</p>
+<p>I’m not sure if this was an issue on my end, but when attempting to source your analysis .R script, this error would pop up:</p>
+<pre><code>+ library(broo .... [TRUNCATED] 
+Error in -library(broom) : invalid argument to unary operator</code></pre>
+<p>The other lines after that ran perfectly fine.</p>
+<p>Other than that, all of the remaining codes and documents ran easily and matched the .html output file.</p>
+</section>
+<section id="summary-assessment-8" class="level3" data-number="1.11.2">
+<h3 data-number="1.11.2" class="anchored" data-anchor-id="summary-assessment-8"><span class="header-section-number">1.11.2</span> Summary assessment</h3>
+<ul>
+<li>fully reproducible without issues</li>
+</ul>
+</section>
+</section>
+<section id="thoroughness" class="level2" data-number="1.12">
+<h2 data-number="1.12" class="anchored" data-anchor-id="thoroughness"><span class="header-section-number">1.12</span> Thoroughness</h2>
+<p>How thorough was the overall study? Were alternatives (e.g.&nbsp;different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?</p>
+<section id="feedback-and-comments-10" class="level3" data-number="1.12.1">
+<h3 data-number="1.12.1" class="anchored" data-anchor-id="feedback-and-comments-10"><span class="header-section-number">1.12.1</span> Feedback and Comments</h3>
+<p>The study was performed very well, but I imagine it can be strengthened further with additional analysis, using different models for comparison. I would also like to see further assessment on your model with cross validation studies to further prove the robustness of your model.</p>
+<p>Despite that, I felt the hypotheses were addressed properly.</p>
+</section>
+<section id="summary-assessment-9" class="level3" data-number="1.12.2">
+<h3 data-number="1.12.2" class="anchored" data-anchor-id="summary-assessment-9"><span class="header-section-number">1.12.2</span> Summary assessment</h3>
+<ul>
+<li>decent level of thoroughness</li>
+</ul>
+</section>
+</section>
+<section id="further-comments-1" class="level2" data-number="1.13">
+<h2 data-number="1.13" class="anchored" data-anchor-id="further-comments-1"><span class="header-section-number">1.13</span> Further comments</h2>
+<p>Minor issues noted above:</p>
+<ul>
+<li>Formatting issue in data section of manuscript</li>
+<li>References in manuscript</li>
+<li>Supplementary markdown file</li>
+<li>Missing codebook</li>
+</ul>
+<p>Overall, I felt the study was thorough and nicely documented. Everything was easy to follow, and there were little to no issue with going through your repository.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
