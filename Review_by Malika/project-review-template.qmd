@@ -1,0 +1,148 @@
+---
+title: Project Review Template 
+author: MALIKA DHAKHWA
+date: 4/25/2024
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: An Analysis of Health & Lifestyle Factors Associated with Sleep Quality
+
+Name of project author(s): Kevin Kosewick and Emma Hardin-Parker
+
+Name of project reviewer: Malika Dhakhwa
+
+# Specific project content evaluation
+Evaluate the different parts of the project by filling in the sections below.
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+You have effectively set the objective and contextualized the project within existing literature, showing how your work aligns with prior studies. I recommend adding a brief overview on the broader importance of sleep quality, such as its impact on health and daily performance, to explain the relevance of your study.
+
+The end of section 2.1 (Background Information) mentions that your study expect to see trends where increased stress levels negatively impact sleep quality and sleep duration. It creates some confusion whether sleep duration is also an outcome variable of the study. I would recommend making necessary adjustments for the clarity of your research focus.
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+* strong contextualization and motivation
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+### Feedback and Comments
+Your hypothesis that stress, sleep duration, and occupation would have the largest impact on sleep quality is clearly stated. It is well formulated using the preliminary data analysis. 
+
+### Summary assessment
+* question/hypotheses fully clear
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+You have outlined the data and its variables in the Abstract and Data Processing sections. The data and units of measurement of the variables are clearly explained in the exploratory data analysis (EDA) file. For greater clarity, it would be beneficial to mention the units of measurement in the manuscript as well. 
+
+I was unable to find a codebook. The provided data link leads to the general Kaggle datasets page rather than directly linking to your specific dataset.
+
+### Summary assessment
+* source and overall structure of data somewhat explained
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+You have done a great job in performing and explaining the data cleaning, processing and exploring. 
+
+While you have described the methods used for feature engineering, detailing the levels of the new factor variables 'cat_bp', 'StepsGroup', and 'PhysicalActivityGroup' would further clarify your methods. 
+
+### Summary assessment
+* essentially no weaknesses in wrangling and exploratory component
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+The use of Random Forest (RF) analysis appears well-suited to the dataset. You have also employed the appropriate performance measures, variable selection techniques, data pre-processing steps, and model evaluation strategies.
+
+However, there is limited explanation regarding the decision to apply GLM to each predictor separately and not to use it in a model including all predictors. Additionally, I would recommend detailing the rationale for comparing only the null model with the RF model. 
+
+### Summary assessment
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+You have made a good use of the figures and tables in the manuscript to help visualize the data and understand the results. Overall, the presentation of results is commendable, with clear and accessible tables and figures.
+
+The readability of tables could be further improved by limiting the number of decimal places displayed. This would make the tables less cluttered.
+
+For categorical variables, I would recommend to include the reference categories in parentheses (e.g., BMI.CategoryObese(Ref.: Normal)) directly in the results tables. This addition would clarify the comparisons being made, creating an ease in interpreting the results.
+
+I noticed a discrepancy in the explanation of Figure 3, where the RMSE is described as increasing and the R-squared as decreasing with the addition of more predictors. 
+
+### Summary assessment
+* results are very well presented
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+You have thoroughly explained the findings of your study in the discussion section, clearly acknowledging both its strengths and limitations. To enhance the robustness of your discussion, I would recommend addressing the fact that the data was not split into training and testing subsets, which is a common practice for assessing model generalizability.
+
+### Summary assessment
+* strong, complete and clear discussion
+
+## Further comments
+In your statistical-analysis.R file, at line 199, I believe there is a misunderstanding in the interpretation of the results. It is mentioned that the intercept indicates that being unemployed results in a sleep quality score of about 7. However, it seems that this interpretation actually pertains to the reference category of Business/Finance instead of the unemployed category.
+
+# Overall project content evaluation
+Evaluate overall features of the project  by filling in the sections below.
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+You have done a great job in organizing your project, with files generally placed in well-labeled folders with the exception for figures. They are located in the images folder within the product folder, which differs from what is described in the main ReadMe file.
+
+### Summary assessment
+* well structured
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+You have done a great job with documentation of the project. Especially in the eda and analysis code files, each phase and the decisions behind each step are well commented. Anyone reviewing your project can easily follow and comprehend the entire analysis process.
+
+### Summary assessment
+* fully and well documented
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+Your project stands out in reproducibility. The documentation clearly explains how to replicate the analysis without the need of any manual intervention. I was able to re-run the entire analysis without any issues.
+
+### Summary assessment
+* fully reproducible without issues
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+Your study addresses its hypotheses using the Random Forest model. However, incorporating comparisons with other advanced machine learning tools, such as LASSO, could provide a more comprehensive analysis. Additionally, enhancing the validation process by splitting the data into training and testing subsets would strengthen the robustness and generalizability of your findings.
+
+### Summary assessment
+* decent level of thoroughness
+
+## Further comments
+- Consider organizing all library import statements at the top of your statistical-analysis.R script. 
+- Refine your references and in-text citation of the link 10,000 steps.org
+
+
+
