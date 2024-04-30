@@ -8,7 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../manuscript/references_sleepdata.bib
+bibliography: ../../assets/references_sleepdata.bib
+csl: ../../assets/apa.csl
 editor: 
   markdown: 
     wrap: 72
