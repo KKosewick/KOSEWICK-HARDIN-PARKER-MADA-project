@@ -8,8 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: dataanalysis-references.bib
-csl: apa.csl 
+bibliography: ../../assets/sleepref2.bib
+csl: ../../assets/apa.csl 
 editor: 
   markdown: 
     wrap: 72
