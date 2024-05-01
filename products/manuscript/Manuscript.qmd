@@ -8,8 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/dataanalysis-references.bib
-csl: ../../assets/apa.csl 
+bibliography: dataanalysis-references.bib
+csl: apa.csl 
 editor: 
   markdown: 
     wrap: 72
@@ -134,7 +134,7 @@ the categorical blood pressure status of a subject based on the
 guidelines](https://www.heart.org/en/health-topics/high-blood-pressure).
 Additionally we created a variable named 'StepsGroup' to determine the
 categorical activity level of subjects in the dataset based on these
-guidelines provided by [10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
+guidelines provided by [10,000 steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
 Finally, we created an additional categorical variable called
 'PhysicalActivityGroup' to categorically represent the level of physical
 activity reported by a subject. The levels are differentiated by 30
