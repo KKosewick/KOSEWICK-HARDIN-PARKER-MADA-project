@@ -21,6 +21,7 @@ library(vip)
 library(ggplot2)
 library(flextable)
 library(gt)
+library(glmnet)
 ```
 
 # Fitting Models and Statistical Analysis
@@ -53,6 +54,7 @@ saveRDS(lmtable_quality_activity, file = lmtable_quality_activity)
 The intercept value indicates that Quality of Sleep will be 6.66 if physical activity is at 0. This has a relatively low standard error and high significance. The coefficient for our variable indicates that as Physical activity level increases by one unit, Quality of Sleep will increase by 0.0109. Our t-statistic is indicated as significant by the p-value but is much lower than the intercept's. This means that Physical Activity Level does have a measurable impact on Quality of Sleep, but it's relatively small.
 
 ####Fitting a model using Quality of Sleep as the outcome and Sleep Duration as a predictor
+
 ```{r}
 lmfit_quality_duration <- lm(Quality.of.Sleep ~ Sleep.Duration, sleepdata)
 
@@ -76,6 +78,7 @@ For our sleep duration model, we can see that our intercept's negative value ind
 For our variable coefficient, we can see that as sleep duration increases by one unit, Quality of sleep also increases by about 1. This has a very strong p-value and t-statistic, indicating a strong relationship between this predictor and our outcome of interest.
 
 #### Fitting a model using Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
+
 ```{r}
 lmfit_quality_duration_occupation <- lm(Quality.of.Sleep ~ Sleep.Duration + Occupation, sleepdata)
 
@@ -124,6 +127,7 @@ saveRDS(lmtable_quality_BMI, file = lmtable_quality_BMI)
 We can see that Obese individuals have a stronger negative relationship with Sleep Quality than Overweight individuals. The lower t-statistics and p-values are likely due to fewer observations for Obese individuals in the dataset. However, it is all still statistically significant and has reasonable standard errors.
 
 ####Fitting a model using Sleep Quality as the outcome and Blood Pressure category as a predictor.
+
 ```{r}
 lmfit_quality_BP <- lm(Quality.of.Sleep~ cat_bp, sleepdata)
 
@@ -147,6 +151,7 @@ We have some interesting results for this one. Our values aren't statistically s
 Normal blood pressure seems to have a small positive impact on sleep quality according to our model. All of these predictors seem to have a relatively small impact as they impact the sleep quality scale by less than one whole unit. Given our p-values and low t-statistics, however, this model should be taken with a grain of salt.
 
 ####Fitting a model using Sleep Quality as the outcome and Stress Level as a predictor.
+
 ```{r}
 lmfit_quality_stress <- lm(Quality.of.Sleep~ Stress.Level, sleepdata)
 
@@ -170,6 +175,7 @@ According to our model, Stress has a strongly defined relationship with sleep qu
 The Stress Level coefficient indicates that as stress increases by one unit, sleep quality decreases by about 0.6 of a unit. The t-statistics and p-values for the values in this model are extremely strong, indicating a well-defined relationship between stress and sleep quality.
 
 ####Fitting a model using Sleep Quality as the outcome and Age and Gender as predictors.
+
 ```{r}
 lmfit_quality_gender_age <- lm(Quality.of.Sleep~ Gender + Age, sleepdata)
 
@@ -193,6 +199,7 @@ According to our table, Males seem to have lower sleep quality than females by a
 When age is factored with gender, we can see that quality of sleep seems to increase slightly along with age. The t-statistic and p-value are both strong for this predictor; it may be worth doing a simple bivariate analysis of age.
 
 ####Fitting a model using Sleep Quality as the outcome and Age as a predictor.
+
 ```{r}
 lmfit_quality_age <- lm(Quality.of.Sleep~ Age, sleepdata)
 
@@ -219,6 +226,7 @@ The intercept here is also interesting as an age of "0" is predicted to have a s
 ####Fitting a model using Sleep Quality as the outcome and a newly grouped Occupatiin variable as the predictor.
 
 Now we'll create a new variable that groups the different occupations to make analysis more succinct.
+
 ```{r}
 # Create a new column
 
@@ -345,6 +353,7 @@ sleepdatafinal <- subset(sleepdata, select = -c(Occupation, systolic, diastolic,
 # Creating a collinearity plot
 
 We'll make sure there isn't collinearity between our continuous variables before we fit more complex models.
+
 ```{r}
 # Select the variables
 
@@ -372,6 +381,7 @@ We're definitely still interested in stress as a predictor as previous work has 
 # Fitting a Random Forest model using cross validation
 
 First, we'll create a random seed to aid in reproducibility.
+
 ```{r}
 #Set the seed
 rngseed=1234
@@ -519,6 +529,7 @@ This seems like a very solid fit; not too close to where overfitting is obvious,
 #### Random Forest Model Evaluation
 
 Now, we'll make a "null" model and compare its results to that of our RF in order to make sure that the RF is useful.
+
 ```{r}
 # Specify the null model
 
@@ -530,7 +541,7 @@ set_mode("regression")
 
 # Fit the null model to the data
 
-null_fit <- fit(null_mod, Quality.of.Sleep ~ 1, data = sleepdatafinal)
+null_fit <- fit(null_mod, Quality.of.Sleep ~ ., data = sleepdatafinal)
 
 # Make predictions
 
@@ -577,33 +588,125 @@ theme_minimal()
 
 Since there is no variation between the model predictions and the observed values in a null model, the R squared is not possible to generate. The observed vs predicted plot is also as expected; a straight line of predictions that all match the average sleep quality score.
 
-Now we'll make a table for the manuscript comparing the metrics we evaluated.
+# Fitting a LASSO Model using cross validation
 
-```{r, message=FALSE}
-#extract the metric values for the null model from the objects they're stored in
+First, we'll create a random seed to aid in reproducibility.
 
-null_rmse_value <- null_rmse$.estimate
+```{r}
+#Set the seed
+rngseed= 3456
 
-null_r_squared_value <- r_squared$.estimate
+set.seed(rngseed)
+```
 
-# Create a data frame
+We'll now train a LASSO model using CV with no train/test split (as the data has less than 400 observations and many of the values are rare/unique for some columns). We'll follow the tidymodels framework.
 
-results <- data.frame(
 
-Model = c("Random Forest", "Null Model"),
+```{r}
+# Recipe preparation
+data_recipe <- recipe(Quality.of.Sleep ~ ., data = sleepdatafinal) %>%
+  step_dummy(all_nominal(), -all_outcomes())  # One-hot encode categorical variables
 
-`R-squared` = c(rf_r_squared, null_r_squared_value),
+# Prepare the recipe
+prepared_recipe <- prep(data_recipe)
 
-RMSE = c(rf_rmse, null_rmse_value)
+# Apply the prepared recipe to transform your data
+processed_data <- bake(prepared_recipe, new_data = sleepdatafinal)
 
+# Define the LASSO model
+lasso_model <- linear_reg(penalty = tune(), mixture = 1) %>%
+  set_engine("glmnet")
+
+# Set up a grid of values to tune over
+lasso_grid <- tibble(penalty = 10^seq(-5, 2, length.out = 50))
+
+# Create a workflow
+lasso_wf <- workflow() %>%
+  add_recipe(data_recipe) %>%
+  add_model(lasso_model)
+
+# Create resamples using 5-fold cross-validation, 5 times repeated
+
+resamples2 <- vfold_cv(sleepdatafinal, v = 5, repeats = 5)
+
+# Tune the LASSO model using cross-validation
+lasso_tune <- tune_grid(
+  lasso_wf,
+  resamples = resamples2,  
+  grid = lasso_grid,
+  metrics = metric_set(rmse), 
+  control = control_grid(save_pred = TRUE)
 )
 
-# Create the table
+# Plot results
+autoplot(lasso_tune)
 
-gt_table <- gt(results)
+# Select the best hyperparameters
+best_param <- select_best(lasso_tune, metric = "rmse")
 
-# Print the table
+# Finalize the workflow with the best hyperparameters
+final_wf2 <- finalize_workflow(lasso_wf, best_param)
 
-print(gt_table)
+# Fit the final LASSO model using the entire dataset
+final_fit2 <- fit(final_wf2, data = sleepdatafinal)
+
+# Extract the fitted LASSO model
+fitted_model2 <- extract_fit_parsnip(final_fit2)
+
+# Create the variable importance plot
+vip(fitted_model2$fit)
+
 ```
+*Kevin: Please check this* 
+
+
+#### Predicting on new data 
+
+
+```{r}
+# Make predictions
+
+predictions2 <- predict(final_fit2, new_data = sleepdatafinal)
+
+# Add the predictions to dataframe
+
+sleepdatafinal$Predicted <- predictions2$.pred
+
+# Create an observed vs. predicted plot
+
+ggplot(sleepdatafinal, aes(x = Quality.of.Sleep, y = Predicted)) +
+
+geom_point() +
+
+geom_abline(color = "red") +
+
+labs(x = "Observed", y = "Predicted", title = "Observed vs. Predicted Plot") +
+
+theme_minimal()
+
+#Now we'll calculate the RMSE and R squared values of our "best" set of parameters
+
+# Calculate residuals
+
+residuals2 <- sleepdatafinal$Quality.of.Sleep - predictions2$.pred
+
+# Calculate RMSE
+
+lasso_rmse <- sqrt(mean(residuals2^2))
+
+# Calculate R squared
+
+sst2 <- sum((sleepdatafinal$Quality.of.Sleep - mean(sleepdatafinal$Quality.of.Sleep))^2)
+
+ssr2 <- sum(residuals2^2)
+
+lasso_r2 <- 1 - (ssr2 / sst2)
+
+#print results
+
+print(lasso_rmse)
+
+print(lasso_r2)
+```
+The Observed vs. Predicted plot looks pretty good! Our RMSE value was once again quite low, at 0.0557 and our R-squared value was high at 0.997. Both of these metrics, combined with the Observed vs. Predicted plot indicate that the LASSO model is performing well on new data. 
 

@@ -8,8 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/references_sleepdata.bib
-csl: ../../assets/apa.csl
+bibliography: ../../assets/dataanalysis-references.bib
+csl: ../../assets/apa.csl 
 editor: 
   markdown: 
     wrap: 72
