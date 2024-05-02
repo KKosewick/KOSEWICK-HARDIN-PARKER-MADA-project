@@ -8,8 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: sleepref2.bib
-csl: vancouver.csl
+bibliography: ../../assets/Sleep-MADA.bib
+csl: ../../assets/apa.csl
 editor: 
   markdown: 
     wrap: 72
@@ -399,3 +399,5 @@ variables dealing with physical, mental, and environmental factors.
 {{< pagebreak >}}
 
 # References
+
+

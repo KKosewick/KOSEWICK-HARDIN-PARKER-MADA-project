@@ -668,7 +668,6 @@ vip(fitted_model2$fit)
 
 ```
 
-*Kevin: Please check this*
 
 #### Predicting on new data
 
