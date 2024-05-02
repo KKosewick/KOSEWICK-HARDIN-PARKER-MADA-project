@@ -8,7 +8,7 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/Sleep-MADA.bib
+bibliography: sleepref2.bib
 csl: ../../assets/apa.csl
 ---
 
