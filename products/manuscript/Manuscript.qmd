@@ -8,8 +8,9 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/dataanalysis-references.bib
-csl: ../../assets/apa.csl
+    pandoc-citeproc: true
+    bibliography: ../../assets/Sleep-MADA.bib
+    csl: ../../assets/apa.csl
 editor: 
   markdown: 
     wrap: 72
