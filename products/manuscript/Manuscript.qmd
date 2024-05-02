@@ -8,7 +8,7 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: sleepref2.bib
+bibliography: ../../assets/sleepref2.bib
 csl: ../../assets/apa.csl
 ---
 
@@ -204,6 +204,12 @@ a pure node, we can split it further into subnodes. This was all done
 using 5-fold Cross-Validation repeated 5 times in order to train the
 data to predict on an unseen dataset.
 
+For our LASSO Regression model, used a 5-fold Cross-Validation repeated 5 times 
+to train our data. We used a tuning parameters and penalties within the tuning
+grid. Using a regularization method for this analysis was something we were 
+concerned about due to the high level of correlation between predictors;
+however, we wanted to include it to ensure a more robust analysis of our data.
+
 ## Evaluation of Models
 
 Root Mean Squared Error (RMSE) is a common metric used to evaluate
@@ -284,6 +290,19 @@ We can see in figure 5 that the null model only predicts values that are
 the average of our observed values. As expected, these predictions are
 far from our actual observed values.
 
+![Figure 6: LASSO Tuning Results](images/lasso_tuneresults.png) 
+
+Figure 6 suggests that regularization may not be the best fit for our data. 
+Though the RMSE values are small, we should be careful in analyzing this model
+due to the high level of correlation and collinearity between variables. 
+
+![Figure 7: The observed vs. predicted values for our 
+"LASSO Model.](images/lasso_obsvpred.png) 
+
+We can see in Figure 7 that the LASSO Model did decently well predicting on 
+the new data. The LASSO model can sufficiently predict sleep quality using
+unseen data. 
+
 ![Table 1: The results of our GLMs. The "term" column identifies the
 category/variable being analyzed. The "model" column identifies the
 predictors used to fit each model. The "statistic" column is a relative
@@ -308,11 +327,11 @@ A variable importance plot (VIP) (figure 6) was constructed using the
 "best" set of parameters (as guided by our RF model) to determine which
 variables had the strongest impact on sleep quality.
 
-![Figure 6: The ranking of each variable's importance in determining
+![Figure 8: The ranking of each variable's importance in determining
 sleep quality according to our Random Forest
 model.](images/variableimportance.png)
 
-As seen in figure 6, Sleep Duration, Stress Level, and Age had the
+As seen in Figure 8, Sleep Duration, Stress Level, and Age had the
 highest levels of importance in our model. Physical Activity Level was
 excluded entirely, which was to be expected given our exploratory data
 analysis and simple linear regression models.
@@ -345,7 +364,10 @@ expect to see age so high on the list; this could be due to us grouping
 ages together in our EDA and therefore misleading us in our preliminary
 data exploration. We did not use the groups when creating our models as
 we learned that grouping continuous variables is a poor practice as we
-progressed in our MADA course.
+progressed in our MADA course. Our RF model performed better than the LASSO 
+model, which was to be expected. We struggled to create a variable importance
+plot for the LASSO model, which could be due to sensitive parameters and 
+tuning penalties. 
 
 Through our linear models, we determined that our hypotheses regarding
 each variable's effect on quality of sleep were supported. The variables
@@ -369,6 +391,11 @@ observations and presence of rare values in our data. We believe that
 fitting using CV minimized the downsides of this. Future analyses would
 benefit from more detailed meta data and a better understanding of the
 experimental design that generated our observations.
+
+Additionally, while we conducted a LASSO regression model and received favorable 
+results, regularization methods are difficult to conduct and interpret when 
+predictors are highly correlated. The penalty paramaters appeared to be too 
+sensitive and were affected by the collinearity between predictors.
 
 The strengths of our analysis lie in the easily interpretation of our
 GLMs and the predictive power of an RF model. We were able to clearly
