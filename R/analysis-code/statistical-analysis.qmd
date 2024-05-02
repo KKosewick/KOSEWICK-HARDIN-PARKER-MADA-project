@@ -306,44 +306,55 @@ Gender_and_Age = lmfit_quality_gender_age
 all_results <- data.frame()
 
 # Loop through each model, tidy the results, and bind to all_results
-
 for(i in 1:length(models)) {
-
-model_name <- names(models)[i]
-
-model_results <- broom::tidy(models[[i]])
-
-model_results$model <- model_name # add a column to identify the model
-
-all_results <- rbind(all_results, model_results)
-
+  model_name <- names(models)[i]
+  model_results <- broom::tidy(models[[i]])
+  
+  # Round the estimate and std.error to 2 decimal places
+  model_results$estimate <- round(model_results$estimate, 2)
+  model_results$std.error <- round(model_results$std.error, 2)
+  model_results$statistic <- round(model_results$statistic, 3)  # Round to 3 decimal places
+  
+  
+  model_results$model <- model_name # add a column to identify the model
+  all_results <- rbind(all_results, model_results)
 }
 
-# Now all_results contains the combined results of all models
-
-print(all_results)
-
-# Save the combined results table
-
-all_results_path = here("results", "tables", "all_results.rds")
-
-saveRDS(all_results, file = all_results_path)
-
 # Transform p-values to scientific notation to make table cleaner to read
-
 all_results$p.value <- format(all_results$p.value, scientific = TRUE, digits = 2)
 
-# Create a flextable
+# Create a named vector of new term names for categorical variables
+new_term_names <- c(
+  "PhysicalActivity" = "PhysicalActivity.CategoryHigh(Reference: Low)",
+  "Occupation_GroupEducation" = "Occupation_Education(Reference: BusinessFinance)",
+  "Occupation_GroupEngineering" = "Occupation_Engineering(Reference: BusinessFinance)",
+  "Occupation_GroupHealthcare" = "Occupation_Healthcare(Reference: BusinessFinance)",
+  "Occupation_GroupLawyer" = "Occupation_Lawyer(Reference: BusinessFinance)",
+  "Occupation_GroupScience" = "Occupation_Science(Reference: BusinessFinance)",
+  "cat_bpStage 1 Hypertension" = "Stage_1_Hypertension(Reference: Elevated)",
+  "cat_bpStage 2 Hypertension" = "Stage_2_Hypertension(Reference: Elevated)",
+  "cat_bpNormal" = "Normal(Reference: Elevated)",
+  "BMI.CategoryObese" = "BMI.CategoryObese(Reference: Normal)",
+  "BMI.CategoryOverweight" = "BMI.CategoryOverweight(Reference: Normal)",
+  "GenderMale" = "GenderMale(Reference: Female)"
+  # Add more terms as needed
+)
 
+# Update the term names in the results
+all_results$term <- ifelse(all_results$term %in% names(new_term_names), 
+                           new_term_names[all_results$term], 
+                           all_results$term)
+
+
+# Create a flextable
 ft <- flextable::flextable(all_results)
 
 # Print the table
-
 print(ft)
 
 # Save the flextable as an image
-
 flextable::save_as_image(ft, path = here("results", "tables", "table.png"))
+
 
 # Now we'll remove unnecessary variables (e.g. ones we've feature engineered into more useful ones) to make our analyses easier.
 
@@ -601,7 +612,6 @@ set.seed(rngseed)
 
 We'll now train a LASSO model using CV with no train/test split (as the data has less than 400 observations and many of the values are rare/unique for some columns). We'll follow the tidymodels framework.
 
-
 ```{r}
 # Recipe preparation
 data_recipe <- recipe(Quality.of.Sleep ~ ., data = sleepdatafinal) %>%
@@ -657,11 +667,10 @@ fitted_model2 <- extract_fit_parsnip(final_fit2)
 vip(fitted_model2$fit)
 
 ```
-*Kevin: Please check this* 
 
+*Kevin: Please check this*
 
-#### Predicting on new data 
-
+#### Predicting on new data
 
 ```{r}
 # Make predictions
@@ -708,5 +717,5 @@ print(lasso_rmse)
 
 print(lasso_r2)
 ```
-The Observed vs. Predicted plot looks pretty good! Our RMSE value was once again quite low, at 0.0557 and our R-squared value was high at 0.997. Both of these metrics, combined with the Observed vs. Predicted plot indicate that the LASSO model is performing well on new data. 
 
+The Observed vs. Predicted plot looks pretty good! Our RMSE value was once again quite low, at 0.0557 and our R-squared value was high at 0.997. Both of these metrics, combined with the Observed vs. Predicted plot indicate that the LASSO model is performing well on new data.

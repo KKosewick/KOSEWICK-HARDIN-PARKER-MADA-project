@@ -1,42 +1,38 @@
 ---
 title: "Supplementary Material"
-
 subtitle: ""
 author: Kevin Kosewick and Emma Hardin-Parker
 date: "`r Sys.Date()`"
 format:
-  pdf:
+  docx:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/dataanalysis_template_references.bib
-csl: ../../assets/vancouver.csl
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
-
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # load a few R packages
 library(here)
 library(knitr)
 ```
 
-
 # Overview
 
-This document includes additional information about the data and results. The full code and detailed explanation of the figures can be found at the [GitHub Repository](https://github.com/KKosewick/KOSEWICK-HARDIN-PARKER-MADA-project).
+This document includes additional information about the data and all of our interesting EDA plots.
+The full code and process of creating each plot can be found in our "eda-processing-code" folder at the [GitHub Repository](https://github.com/KKosewick/KOSEWICK-HARDIN-PARKER-MADA-project).
 
 # Code & File Details and Locations
 
-The eda.qmd file, located in the R folder and subsequently in the eda-processing-code folder contains all data exploration, processing, and transformation. The statistical-analysis.R file, found in the R folder and subsequently in the analysis-code folder holds all statistical analysis and machine learning code. 
-
-
-{{< pagebreak >}}
-
+The eda.qmd file, located in the R folder and subsequently in the eda-processing-code folder contains all data exploration, processing, and transformation.
+The statistical-analysis.R file, found in the R folder and subsequently in the analysis-code folder holds all statistical analysis and machine learning code.
 
 # Exploratory Data Analysis
 
-*Include ALL exploratory analysis figures* 
-
+The data was obtained from kaggle.com at this [link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data).
+This page contains a detailed codebook and all available information about the data set.
 The following information is the codebook for this dataset:
 
 The data set contains 373 observations for 13 variables.
@@ -57,434 +53,97 @@ Heart Rate (bpm): The participant's resting heart rate, measured in beats per mi
 Daily Steps: The number of steps the participant takes each day.
 Sleep Disorder: The presence or absence of a sleep disorder in the participant (None, Insomnia, Sleep Apnea).
 
-Before going further into the exploratory analysis, we need to determine whether missing values are present and if they could jeopardize any future analyses.
-
-```{r}
-print(sum(is.na(sleepdata)))
-```
-
-There are no missing values in our data set!
-We can now move on to creating new variables or transmuting existing variables.
-
 # Data Transformation
 
-We are going to create a categorical variable to go alongside the existing blood pressure variable.
-We are using blood pressure guidelines from the American Heart Association to create our new categorical blood pressure variable.
-Our goal with this is to see how blood pressure can affect sleep quality in a more digestible way.
-First, we will need to create new systolic and diastolic variables to ultimately create our categorical variable.
-We have attached the guidelines here:
+We created a categorical hypertension variable from our current continuous blood pressure variable.
+We used blood pressure guidelines from the American Heart Association to do this.
+Our goal with this was to see how blood pressure can affect sleep quality in a more digestible way.
+We have attached the guidelines here: [AHA Guidelines](https://www.heart.org/en/health-topics/high-blood-pressure)
 
-[![AHA Guidelines](AHA_Guidelines.png)](https://www.heart.org/en/health-topics/high-blood-pressure)
+![](images/AHA_Guidelines.png){fig-align="center"}
 
-```{r}
-# Splitting the Blood.Pressure variable into systolic and diastolic variable columns
-sleepdata <- sleepdata %>%
-  separate(Blood.Pressure, into = c("systolic", "diastolic"), sep = "/")
-
-# Ensuring that the new columns are considered numeric 
-sleepdata$systolic <- as.numeric(sleepdata$systolic)
-sleepdata$diastolic <- as.numeric(sleepdata$diastolic)
-
-# Creating new categorical variable 
-
-sleepdata <- sleepdata %>%
-  mutate(cat_bp = case_when(
-    systolic < 120 & diastolic < 80 ~ "Normal",
-    systolic >= 120 & systolic <= 129 & diastolic < 80 ~ "Elevated",
-    (systolic >= 130 & systolic <= 139) | (diastolic >= 80 & diastolic <= 89) ~ "Stage 1 Hypertension",
-    systolic >= 140 | diastolic >= 90 ~ "Stage 2 Hypertension"
-  ))
-```
-
-Now that we have created this new variable and adjusted the format of the blood pressure variables, we are now going to further explore the other variables to see if they are fit, as is, for analysis.
-We noticed that within the BMI.Category variable, there are both "Normal" and "Normal Weight" categories.
-We assume this was an oversight in data entry, and intend to merge the two together to ensure all "Normal" categories are together for subsequent analyses.
-
-```{r}
-# Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category
-
-sleepdata <- sleepdata %>%
-  mutate(BMI.Category = case_when(
-    BMI.Category %in% c("Normal", "Normal Weight") ~ "Normal",
-    BMI.Category == "Overweight" ~ "Overweight",
-    BMI.Category == "Obese" ~ "Obese",
-  ))
-```
-
-As of this point in our cleaning, we feel confident that the data is structured in such a way that analyses can be performed.
-
-# Data Visualization and Exploratory Data Analysis
-
-We will now begin to create some figures to help visualize the relationships in the dataset.
-Quality of Sleep is our outcome of interest; we'll explore the effect each other variable seems to have on it.
-First, we'll start with the variables that aren't health specific.
-I asked Microsoft Copilot in Precise Mode to generate the base code for some plots that I then changed them to be specific to the dataset/have more visual appeal.
-
-```{r}
-# Boxplot for Quality of Sleep by Gender
-ggplot(sleepdata, aes(x = Gender, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Quality of Sleep by Gender", x = "Gender", y = "Quality of Sleep")
-
-# Create bins for Age in order to create a clean boxplot.
-sleepdata$AgeGroup <- cut(sleepdata$Age, breaks = c(20, 30, 40, 50, 60), labels = c("20-30", "30-40", "40-50", "50-60"), include.lowest = TRUE)
-
-# Calculate mean Quality of Sleep for each Age Group to plot with means for cleaner visuals
-sleepdata_summary <- sleepdata %>%
-  group_by(AgeGroup) %>%
-  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
-
-# Bar plot for Mean Quality of Sleep by Age Group with colorblind-friendly palette
-ggplot(sleepdata_summary, aes(x = AgeGroup, y = MeanQuality, fill = AgeGroup)) +
-  geom_bar(stat = "identity") +
-  scale_fill_brewer(palette = "Set2") +
-  labs(title = "Mean Quality of Sleep by Age Group", x = "Age Group", y = "Mean Quality of Sleep")
-
-# Calculate mean Quality of Sleep for each Occupation in order to create a bar plot.
-sleepdata_summary <- sleepdata %>%
-  group_by(Occupation) %>%
-  summarise(MeanQuality = mean(Quality.of.Sleep, na.rm = TRUE))
-
-# Bar plot for Mean Quality of Sleep by Occupation with manually specified colors
-ggplot(sleepdata_summary, aes(x = Occupation, y = MeanQuality, fill = Occupation)) +
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = rainbow(length(unique(sleepdata_summary$Occupation)))) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(title = "Mean Quality of Sleep by Occupation", x = "Occupation", y = "Mean Quality of Sleep")
-
-```
-
-We can see some clear differences in self-reported Quality of Sleep between these different groups already.
-Females tend to report an average of 1 higher according to the boxplot.
-The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far.
-Our occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far.
-We'll now explore Physical Activity and plot it as a predictor for Quality of Sleep.
-To make it easier to visualize Physical Activity, we'll create a new variable with categories of Low (0-30 minutes), Medium (30-60), and High (60+).
-We'll again use Microsoft Copilot for the basic plot code and modify it to our dataset/preferences.
-
-```{r}
-# Histogram for Physical Activity Level
-ggplot(sleepdata, aes(x = Physical.Activity.Level)) +
-  geom_histogram(binwidth = 10) +
-  labs(title = "Histogram of Physical Activity Level", x = "Physical Activity Level (minutes/day)", y = "Count")
-
-# Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"
-sleepdata$PhysicalActivityGroup <- cut(sleepdata$Physical.Activity.Level, breaks = c(0, 30, 60, Inf), labels = c("Low", "Medium", "High"))
-
-# Box plot for Quality of Sleep by Physical Activity Level Group
-ggplot(sleepdata, aes(x = PhysicalActivityGroup, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Quality of Sleep by Physical Activity Level Group", x = "Physical Activity Level Group", y = "Quality of Sleep")
-```
-
-We can clearly see that Physical Activity level has a positive correlation with Quality of Sleep.
-We'll now explore Daily Steps.
-We can create a new variable with groups according to the guidelines here at [10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).
+To make it easier to visualize Physical Activity, we created a new variable with categories of Low (0-30 minutes), Medium (30-60), and High (60+).
+We also created a new variable with groups according to the guidelines here at [10,000 steps.org](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500).
 Nobody in the dataset goes over 10000 steps a day, however, so we won't see any data for the "Active" or "Highly Active" groups.
-
-```{r}
-# Histogram for Daily Steps
-ggplot(sleepdata, aes(x = Daily.Steps)) +
-  geom_histogram(binwidth = 500) +
-  labs(title = "Histogram of Daily Steps", x = "Daily Steps", y = "Count")
-
-# Create a new variable for Daily Steps groups based off of 10,000 steps.org categories
-sleepdata$StepsGroup <- cut(sleepdata$Daily.Steps, 
-                       breaks = c(-Inf, 5000, 7500, 10000, 12500, Inf), 
-                       labels = c("Sedentary", "Low active", "Somewhat active", "Active", "Highly active"), 
-                       include.lowest = TRUE)
-
-# Box plot for Quality of Sleep by Daily Steps Group
-ggplot(sleepdata, aes(x = StepsGroup, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Quality of Sleep by Daily Steps Group", x = "Daily Steps Group", y = "Quality of Sleep")
-
-```
-
-Daily Steps don't have as clear of a trend as Physical Activity did, but there do seem to be fewer low Quality of Sleep scores in higher daily steps groups.
-Now we'll explore our Sleep Duration variable.
-According to [Medical News Today](https://www.medicalnewstoday.com/articles/sleep-cycle-stages#sleep-requirements), adults aged 18-61 are recommended 7+ hours of sleep a night.
-We'll keep this in mind when looking at our data.
-
-```{r}
-# Histogram for Sleep Duration
-ggplot(sleepdata, aes(x = Sleep.Duration)) +
-  geom_histogram(binwidth = 0.5) +
-  labs(title = "Histogram of Sleep Duration", x = "Sleep Duration (hours)", y = "Count")
-
-# Scatterplot for Quality of Sleep by Sleep Duration
-ggplot(sleepdata, aes(x = Sleep.Duration, y = Quality.of.Sleep)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  labs(title = "Quality of Sleep by Sleep Duration", x = "Sleep Duration (hours)", y = "Quality of Sleep")
-
-```
-
-We can see a clear positive correlation between Sleep Duration and Quality of Sleep. This is to be expected. Now we'll begin plotting our final set of variables. We'll start with analyzing the new variable we created with categories of Blood Pressure.
-
-```{r}
-# Bar plot for cat_bp
-ggplot(sleepdata, aes(x = cat_bp)) +
-  geom_bar() +
-  labs(title = "Bar Plot of cat_bp", x = "cat_bp", y = "Count")
-
-# Box plot for Quality of Sleep by cat_bp
-ggplot(sleepdata, aes(x = cat_bp, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Box Plot of Quality of Sleep by cat_bp", x = "cat_bp", y = "Quality of Sleep")
-
-
-```
-The boxplots look a bit strange for the Elevated and Normal levels, but we can see on the histogram that it's likely due to a shortage of data for these categories. We can see, however, that Quality of Sleep does seem to be negatively correlated with increasing stages of hypertension. Now we'll explore BMI with some plots.
-
-```{r}
-# Bar plot for BMI Category
-ggplot(sleepdata, aes(x = BMI.Category)) +
-  geom_bar() +
-  labs(title = "Bar Plot of BMI Category", x = "BMI Category", y = "Count")
-
-# Box plot for Quality of Sleep by BMI Category
-ggplot(sleepdata, aes(x = BMI.Category, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Box Plot of Quality of Sleep by BMI Category", x = "BMI Category", y = "Quality of Sleep")
-
-```
-We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories. However, there are very few in the obese category, so conclusions with that group may not be as supported as others. Now we'll look at Stress Level.
-
-```{r}
-# Histogram for Stress Level
-ggplot(sleepdata, aes(x = Stress.Level)) +
-  geom_histogram(binwidth = 1) +
-  labs(title = "Histogram of Stress Level", x = "Stress Level (scale: 1-10)", y = "Count")
-
-# Scatterplot for Quality of Sleep by Stress Level
-ggplot(sleepdata, aes(x = Stress.Level, y = Quality.of.Sleep)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  labs(title = "Quality of Sleep by Stress Level", x = "Stress Level (scale: 1-10)", y = "Quality of Sleep")
-```
-Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep. However, this is a subjective scale, so data should be taken with a grain of salt for now. Let's look at Heart Rate related to Quality of Sleep now.
-
-```{r}
-# Histogram for Heart Rate
-ggplot(sleepdata, aes(x = Heart.Rate)) +
-  geom_histogram(binwidth = 5) +
-  labs(title = "Histogram of Heart Rate", x = "Heart Rate (bpm)", y = "Count")
-
-# Scatterplot for Quality of Sleep by Heart Rate
-ggplot(sleepdata, aes(x = Heart.Rate, y = Quality.of.Sleep)) +
-  geom_point() +
-  geom_smooth(method = "loess") +
-  labs(title = "Quality of Sleep by Heart Rate", x = "Heart Rate (bpm)", y = "Quality of Sleep")
-
-```
-
-This data is a bit difficult to visualize for now but we can see a negative correlation between the two. Healthy Heart Rates tend to differ between each individual, however, so we'll have to wait until deeper statistical analyses to draw any educated conclusions for now. We've finally reached our last variable: Sleep Disorders.
-
-```{r}
-# Bar plot for Sleep Disorder
-ggplot(sleepdata, aes(x = Sleep.Disorder)) +
-  geom_bar() +
-  labs(title = "Bar Plot of Sleep Disorder", x = "Sleep Disorder", y = "Count")
-
-# Box plot for Quality of Sleep by Sleep Disorder
-ggplot(sleepdata, aes(x = Sleep.Disorder, y = Quality.of.Sleep)) +
-  geom_boxplot() +
-  labs(title = "Box Plot of Quality of Sleep by Sleep Disorder", x = "Sleep Disorder", y = "Quality of Sleep")
-```
-We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we'd expect to see. The dataset also seems to reflect the population accurately, as those without a sleep disorder are more numerous than individuals with one.
+Lastly, we created a new variable that groups the different occupations to make analysis more succinct.
 
 {{< pagebreak >}}
 
+# Data Visualization and Exploratory Data Analysis
 
-# Simple Linear Regression and Basic Statistical Analysis Figures / Results 
+We have included the plots generated by our EDA here alongside some interpretations.
+These are all of the preliminary findings that guided our feature engineering and variable selection steps for our final models.
 
-Fitting a model using Quality of Sleep as the outcome and Physical Activity Level as a predictor
+![Figure 1: A boxplot comparing the average quality of sleep between males and females in our dataset.](images/unnamed-chunk-7-1.png)
 
-```{r}
-#Load the data
-sleepdata<- readRDS(here("data","processed-data","sleepdataprocessed.RDS"))
+![Figure 2: A bar plot showing the mean quality of sleep by age group. We eventually decided to ungroup the ages for our final model fitting processes.](images/unnamed-chunk-7-2.png)
 
-lmfit_quality_activity <- lm(Quality.of.Sleep ~ Physical.Activity.Level, sleepdata)  
-
-# Placing results from lmfit_quality_activty  into a data frame with the tidy function
-lmtable_quality_activity <- broom::tidy(lmfit_quality_activity)
-
-# Viewing the results from the first model fit 
-print(lmtable_quality_activity)
-
-# Saving the lmfit_quality_activity results table  
-lmtable_quality_activity = here("results", "tables", "lmfit1table.rds")
-saveRDS(lmtable_quality_activity, file = lmtable_quality_activity)
-```
-
-The intercept value indicates that Quality of Sleep will be 6.66 if physical activity is at 0. This has a relatively low standard error and high significance.
-## The coefficient for our variable indicates that as Physical activity level increases by one unit, Quality of Sleep will increase by 0.0109. Our t-statistic is indicated as significant by the p-value but is much lower than the intercept's.
-## This means that Physical Activity Level does have a measurable impact on Quality of Sleep, but it's relatively small.
-
-Fitting a model using Quality of Sleep as the outcome and Sleep Duration as a predictor
-```{r}
-lmfit_quality_duration <- lm(Quality.of.Sleep ~ Sleep.Duration, sleepdata)  
-
-# Placing results from lmfit_quality_duration into a data frame with the tidy function
-lmtable_quality_duration <- broom::tidy(lmfit_quality_duration)
-
-#Viewing the results from the second model fit 
-print(lmtable_quality_duration)
-
-# Saving the lmfit_quality_duration results table  
-lmtable_quality_duration = here("results", "tables", "lmfit2table.rds")
-saveRDS(lmtable_quality_duration, file = lmtable_quality_duration)
-```
-
-For our sleep duration model, we can see that our intercept's negative value indicates that Quality of Sleep would be very poor if individuals got no sleep. This is rational and is supported by a strong p-value and a decent t-statistic, although the standard error is a bit high. 
-For our variable coefficient, we can see that as sleep duration increases by one unit, Quality of sleep also increases by about 1. This has a very strong p-value and t-statistic, indicating a strong relationship between this predictor and our outcome of interest.
-
-Fitting a model using Quality of Sleep as the outcome and Sleep Duration and Occupation as predictors
-
-```{r}
-lmfit_quality_duration_occupation <- lm(Quality.of.Sleep ~ Sleep.Duration + Occupation, sleepdata)  
-
-# Placing results from lmfit_quality_duration_occupation into a data frame with the tidy function
-lmtable_quality_duration_occupation <- broom::tidy(lmfit_quality_duration_occupation)
-
-#Viewing the results from the third model fit 
-print(lmtable_quality_duration_occupation)
-
-# Saving the lmfit_quality_duration_occupation results table  
-lmtable_quality_duration_occupation = here("results", "tables", "lmfit3table.rds")
-saveRDS(lmtable_quality_duration_occupation, file = lmtable_quality_duration_occupation)
-```
-
-Since Occupation is a categorical variable, interpreting our intercept value is tricky. It's hard to get good information from it since we don't have any data from unemployed people. However, the coefficients for our predictors show a variety of interesting relationships.
-Sleep Duration shows a similar relationship to our bivariate model we ran earlier. Sales representatives have the worst sleep quality by far with a strong t-statistic and p-value. Scientists, doctors, and sales persons are all about the next worst (with strong t-stats and p-values). 
-The occupations that seem to have the best sleep are teachers, lawyers, engineers and nurses. This is somewhat surprising since these are all demanding jobs that can have decently stressful work environments. 
-
-Fitting a model using Sleep Quality as the outcome and BMI as a predictor.
-
-```{r}
-lmfit_quality_BMI <- lm(Quality.of.Sleep~ BMI.Category, sleepdata)
-
-#Placing results from lmfit_quality_BMI into a data frame with the tidy function
-lmtable_quality_BMI <- broom::tidy(lmfit_quality_BMI)
-
-#Viewing the results from the fourth model fit 
-print(lmtable_quality_BMI)
-
-# Saving the lmfit_quality_BMI results table  
-lmtable_quality_BMI = here("results", "tables", "lmfit4table.rds")
-saveRDS(lmtable_quality_BMI, file = lmtable_quality_BMI)
-```
-
-We can see that Obese individuals have a stronger negative relationship with Sleep Quality than Overweight individuals. The lower t-statistics and p-values are likely due to fewer observations for Obese individuals in the dataset. However, it is all still statistically significant and has reasonable standard errors. 
-
-Fitting a model using Sleep Quality as the outcome and Blood Pressure category as a predictor.
-
-```{r}
-lmfit_quality_BP <- lm(Quality.of.Sleep~ cat_bp, sleepdata)
-
-#Placing results from lmfit_quality_BP into a data frame with the tidy function
-lmtable_quality_BP <- broom::tidy(lmfit_quality_BP)
-
-#Viewing the results from the fifth model fit 
-print(lmtable_quality_BP)
-
-# Saving the lmfit_quality_BP results table  
-lmtable_quality_BP = here("results", "tables", "lmfit5table.rds")
-saveRDS(lmtable_quality_BP, file = lmtable_quality_BP)
-```
+![Figure 3: A bar plot showing the mean quality of sleep across the occupations in our dataset. We eventually decided to group these into broader categories for our final model fitting.](images/unnamed-chunk-7-3.png)
 
 
-We have some interesting results for this one. Our values aren't statistically significant according to p-values, but we can see that Stage 1 Hypertension seems to have the biggest negative impact on Quality of Sleep. This is surprising since we would expect more severe hypertension to result in worse sleep, but according to our model, Stage 2 hypertension has less impact than Stage 2. 
-Normal blood pressure seems to have a small positive impact on sleep quality according to our model. All of these predictors seem to have a relatively small impact as they impact the sleep quality scale by less than one whole unit. Given our p-values and low t-statistics, however, this model should be taken with a grain of salt.
+We can see some clear differences in self-reported Quality of Sleep between these different groups.
+Females tend to report an average of 1 higher according to the boxplot.
+The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far.
+Our ungrouped occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far.
 
-Fitting a model using Sleep Quality as the outcome and Stress Level as a predictor.
+{{< pagebreak >}}
 
+![Figure 4: A boxplot of the feature engineered categorical variable for physical activity levels.](images/unnamed-chunk-8-2.png)
 
-```{r}
-lmfit_quality_stress <- lm(Quality.of.Sleep~ Stress.Level, sleepdata)
+We then explored Physical Activity Level as a predictor of sleep quality using our engineered categories. We see a positive correlation between increasing physical activity and sleep quality here.
 
-#Placing results from lmfit_quality_stress into a data frame with the tidy function
-lmtable_quality_stress <- broom::tidy(lmfit_quality_stress)
+{{< pagebreak >}}
 
-#Viewing the results from the sixth model fit 
-print(lmtable_quality_stress)
+![Figure 5: A boxplot of daily steps as a predictor of quality of sleep. We used the different categories as previously described.](images/unnamed-chunk-9-2.png)
 
-# Saving the lmfit_quality_stress results table  
-lmtable_quality_stress = here("results", "tables", "lmfit6table.rds")
-saveRDS(lmtable_quality_stress, file = lmtable_quality_stress)
-```
+We then explored Daily Steps with a box plot of our new engineered categorical variable. Daily Steps don't have as clear of a trend as Physical Activity did, but there do seem to be fewer low Quality of Sleep scores in higher daily steps groups.
 
-According to our model, Stress has a strongly defined relationship with sleep quality. We can see that a value of 0 on the stress score leads to a 10 unit increase in quality of sleep. 
-## The Stress Level coefficient indicates that as stress increases by one unit, sleep quality decreases by about 0.6 of a unit. The t-statistics and p-values for the values in this model are extremely strong, indicating a well-defined relationship between stress and sleep quality.
+{{< pagebreak >}}
 
-Fitting a model using Sleep Quality as the outcome and Age and Gender as predictors.
+![Figure 6: A scatterplot for sleep duration as a predictor of quality of sleep.](images/unnamed-chunk-10-2.png)
 
+We then explored our Sleep Duration variable.
+According to [Medical News Today](https://www.medicalnewstoday.com/articles/sleep-cycle-stages#sleep-requirements), adults aged 18-61 are recommended 7+ hours of sleep a night.
+We kept this in mind when looking at our data. We can see a clear and strong positive correlation between Sleep Duration and Quality of Sleep.
 
-```{r}
-lmfit_quality_gender_age <- lm(Quality.of.Sleep~ Gender + Age, sleepdata)
+{{< pagebreak >}}
 
-#Placing results from lmfit_quality_gender_age into a data frame with the tidy function
-lmtable_quality_gender_age <- broom::tidy(lmfit_quality_gender_age)
+![Figure 7: A bar plot of our categorical blood pressure variable.](images/unnamed-chunk-11-1.png)
 
-#Viewing the results from the seventh model fit 
-print(lmtable_quality_gender_age)
+![Figure 8: A box plot of hypertension category as a predictor of quality of sleep.](images/unnamed-chunk-11-2.png)
 
-# Saving the lmfit_quality_gender_age results table  
-lmtable_quality_gender_age = here("results", "tables", "lmfit7table.rds")
-saveRDS(lmtable_quality_gender_age, file = lmtable_quality_gender_age)
-```
+We then looked at the new variable we created with categories of Blood Pressure. We can see that elevated and normal blood pressure have the least observations.
+Most individuals fall under the category of "Stage 1 Hypertension" as defined by the AHA.
+We can't see a clear relationship between our outcome and predictor based off of these plots.
 
-According to our table, Males seem to have lower sleep quality than females by about a score of .0336. However, the t-statistic is very low and the p-value is very poor. Gender doesn't seem to be a good predictor of sleep quality.
-## When age is factored with gender, we can see that quality of sleep seems to increase slightly along with age. The t-statistic and p-value are both strong for this predictor; it may be worth doing a simple bivariate analysis of age.
+{{< pagebreak >}}
 
-Fitting a model using Sleep Quality as the outcome and Age as a predictor.
+![Figure 9: A bar plot showing the counts of our different BMI categories in the data.](images/unnamed-chunk-12-1.png)
 
-```{r}
-lmfit_quality_age <- lm(Quality.of.Sleep~ Age, sleepdata)
+![Figure 10: A box plot of BMI category as a predictor of sleep quality.](images/unnamed-chunk-12-2.png)
 
-#Placing results from lmfit_quality_age into a data frame with the tidy function
-lmtable_quality_age <- broom::tidy(lmfit_quality_age)
+We then explored BMI with some plots.
+We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories.
+However, there are very few observations in the obese category, so conclusions with that group may not be as easy to support.
 
-#Viewing the results from the eighth model fit 
-print(lmtable_quality_age)
+{{< pagebreak >}}
 
-# Saving the lmfit_quality_age results table  
-lmtable_quality_age = here("results", "tables", "lmfit8table.rds")
-saveRDS(lmtable_quality_age, file = lmtable_quality_age)
-```
+![Figure 11: A scatterplot of Stress Level as a predictor for sleep quality.](images/unnamed-chunk-13-2.png)
 
-Our model shows a strong relationship between age and quality of sleep. As Age increases, sleep quality seems to improve. Each year increase in age is predicted to have a 0.065 increase in sleep quality score.
-## The intercept here is also interesting as an age of "0" is predicted to have a sleep score of 4.57, which is relatively poor. The t-statistics and p-values for these are both strong.
+We then looked at Stress Level as a predictor for quality of sleep. Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep.
 
-Now we'll create a new variable that groups the different occupations to make analysis more succinct.
+{{< pagebreak >}}
 
-```{r}
-# Create a new column
-sleepdata$Occupation_Group <- as.character(sleepdata$Occupation)
+![Figure 12: A scatterplot of Heart Rate as a predictor for quality of sleep.](images/unnamed-chunk-14-2.png)
 
-# Map occupations to broader categories
-sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Nurse', 'Doctor')] <- 'Healthcare'
-sleepdata$Occupation_Group[sleepdata$Occupation == 'Teacher'] <- 'Education'
-sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Software Engineer', 'Engineer')] <- 'Engineering'
-sleepdata$Occupation_Group[sleepdata$Occupation %in% c('Accountant', 'Salesperson', 'Sales Representative', 'Manager')] <- 'Business/Finance'
-sleepdata$Occupation_Group[sleepdata$Occupation == 'Scientist'] <- 'Science'
+We then looked at Heart Rate's relationship to Quality of Sleep. We can see a bit of a skewed relationship between the two variables.
+Healthy Heart Rates tend to differ between each individual, making it difficult to draw conclusions about this variable.
 
-# Convert the new column to a factor
-sleepdata$Occupation_Group <- as.factor(sleepdata$Occupation_Group)
+{{< pagebreak >}}
 
-## This should help with analysis of this variable. We'll fit this to a model now to test it.
+![Figure 13: A bar plot showing the count of sleep disorders in our data.](images/unnamed-chunk-15-1.png)
 
-lmfit_quality_occupation <- lm(Quality.of.Sleep~ Occupation_Group, sleepdata)
+![Figure 14: A box plot of Sleep Disorder as a predictor of quality of sleep.](images/unnamed-chunk-15-2.png)
 
-#Placing results from lmfit_quality_occupation into a data frame with the tidy function
-lmtable_quality_occupation <- broom::tidy(lmfit_quality_occupation)
-
-#Viewing the results from the occupation model fit 
-print(lmtable_quality_occupation)
-
-# Saving the lmfit_quality_gender_age results table  
-lmtable_quality_occupation = here("results", "tables", "lmfit9table.rds")
-saveRDS(lmtable_quality_occupation, file = lmtable_quality_occupation)
-```
-
+The last variable we investigated was Sleep Disorders. We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we'd expect to see.
+There are far more observations of individuals without any disorders than of either Sleep Apnea or Insomnia.

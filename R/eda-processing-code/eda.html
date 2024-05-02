@@ -110,79 +110,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This document contains our exploratory analysis of our chosen data set, sleepdata. We intend to perform any needed cleaning and mutation to the data as well as creating exploratory plots and tables to gain a better understanding of the data. As stated in the manuscript, we are looking to determine which variables or identifiers have significant impacts on sleep quality.</p>
+<p>This document contains our exploratory analysis of our chosen data set, sleepdata. We intend to perform any needed cleaning and mutation to the data as well as creating exploratory plots and tables to gain a better understanding of the data. We are looking to determine which variables or identifiers have significant impacts on sleep quality.</p>
 <section id="setup" class="level1">
 <h1>Setup</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Loading necessary libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co">#for data loading/saving</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'here' was built under R version 4.3.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>here() starts at D:/MADA/KOSEWICK-HARDINPARKER-MADA-project/KOSEWICK-HARDIN-PARKER-MADA-project</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'skimr' was built under R version 4.3.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' was built under R version 4.3.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.3.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.3.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.3.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ lubridate 1.9.3     ✔ tibble    3.2.1
-✔ purrr     1.0.2     ✔ tidyr     1.3.0
-✔ readr     2.1.5     </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co">#for data loading/saving</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="getting-to-know-the-data" class="level1">
 <h1>Getting to know the data</h1>
 <p>Load &amp; View the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"raw-data"</span>, <span class="st">"ss.csv"</span>))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"raw-data"</span>, <span class="st">"ss.csv"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Exploring the structure and format of the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Person.ID      Gender               Age         Occupation       
  Min.   :  1   Length:373         Min.   :27.00   Length:373        
@@ -213,7 +162,7 @@ Attaching package: 'dplyr'</code></pre>
                    
                    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">structure</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">structure</span>(sleepdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Person.ID Gender Age           Occupation Sleep.Duration Quality.of.Sleep
 1           1   Male  27    Software Engineer            6.1                6
@@ -1343,7 +1292,7 @@ Attaching package: 'dplyr'</code></pre>
 <p>Person ID: A unique identifier for each participant. Gender: The participant’s gender (Male/Female). Age: The participant’s age in years. Occupation: The job or career of the participant. Sleep Duration (hours): The daily sleep duration of the participant in hours. Quality of Sleep (scale: 1-10): A subjective assessment of sleep quality on a scale from 1 to 10. Physical Activity Level (minutes/day): The daily duration of physical activity for the participant, measured in minutes. Stress Level (scale: 1-10): A subjective assessment of the participant’s stress level on a scale from 1 to 10. BMI Category: The participant’s BMI classification (e.g., Underweight, Normal, Overweight). Blood Pressure (systolic/diastolic): The participant’s blood pressure, represented as systolic pressure over diastolic pressure. Heart Rate (bpm): The participant’s resting heart rate, measured in beats per minute. Daily Steps: The number of steps the participant takes each day. Sleep Disorder: The presence or absence of a sleep disorder in the participant (None, Insomnia, Sleep Apnea).</p>
 <p>Before going further into the exploratory analysis, we need to determine whether missing values are present and if they could jeopardize any future analyses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(sleepdata)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(sleepdata)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
@@ -1360,34 +1309,34 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting the Blood.Pressure variable into systolic and diastolic variable columns</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Blood.Pressure, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"systolic"</span>, <span class="st">"diastolic"</span>), <span class="at">sep =</span> <span class="st">"/"</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensuring that the new columns are considered numeric </span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>systolic <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(sleepdata<span class="sc">$</span>systolic)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>diastolic <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(sleepdata<span class="sc">$</span>diastolic)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating new categorical variable </span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cat_bp =</span> <span class="fu">case_when</span>(</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&lt;</span> <span class="dv">120</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"Normal"</span>,</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&gt;=</span> <span class="dv">120</span> <span class="sc">&amp;</span> systolic <span class="sc">&lt;=</span> <span class="dv">129</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"Elevated"</span>,</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    (systolic <span class="sc">&gt;=</span> <span class="dv">130</span> <span class="sc">&amp;</span> systolic <span class="sc">&lt;=</span> <span class="dv">139</span>) <span class="sc">|</span> (diastolic <span class="sc">&gt;=</span> <span class="dv">80</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;=</span> <span class="dv">89</span>) <span class="sc">~</span> <span class="st">"Stage 1 Hypertension"</span>,</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&gt;=</span> <span class="dv">140</span> <span class="sc">|</span> diastolic <span class="sc">&gt;=</span> <span class="dv">90</span> <span class="sc">~</span> <span class="st">"Stage 2 Hypertension"</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting the Blood.Pressure variable into systolic and diastolic variable columns</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Blood.Pressure, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"systolic"</span>, <span class="st">"diastolic"</span>), <span class="at">sep =</span> <span class="st">"/"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensuring that the new columns are considered numeric </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>systolic <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(sleepdata<span class="sc">$</span>systolic)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>diastolic <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(sleepdata<span class="sc">$</span>diastolic)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating new categorical variable </span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cat_bp =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&lt;</span> <span class="dv">120</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"Normal"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&gt;=</span> <span class="dv">120</span> <span class="sc">&amp;</span> systolic <span class="sc">&lt;=</span> <span class="dv">129</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"Elevated"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    (systolic <span class="sc">&gt;=</span> <span class="dv">130</span> <span class="sc">&amp;</span> systolic <span class="sc">&lt;=</span> <span class="dv">139</span>) <span class="sc">|</span> (diastolic <span class="sc">&gt;=</span> <span class="dv">80</span> <span class="sc">&amp;</span> diastolic <span class="sc">&lt;=</span> <span class="dv">89</span>) <span class="sc">~</span> <span class="st">"Stage 1 Hypertension"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    systolic <span class="sc">&gt;=</span> <span class="dv">140</span> <span class="sc">|</span> diastolic <span class="sc">&gt;=</span> <span class="dv">90</span> <span class="sc">~</span> <span class="st">"Stage 2 Hypertension"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have created this new variable and adjusted the format of the blood pressure variables, we are now going to further explore the other variables to see if they are fit, as is, for analysis. We noticed that within the BMI.Category variable, there are both “Normal” and “Normal Weight” categories. We assume this was an oversight in data entry, and intend to merge the two together to ensure all “Normal” categories are together for subsequent analyses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BMI.Category =</span> <span class="fu">case_when</span>(</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Normal"</span>, <span class="st">"Normal Weight"</span>) <span class="sc">~</span> <span class="st">"Normal"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">==</span> <span class="st">"Overweight"</span> <span class="sc">~</span> <span class="st">"Overweight"</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">==</span> <span class="st">"Obese"</span> <span class="sc">~</span> <span class="st">"Obese"</span>,</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging "Normal" and "Normal Weight" attributes into a singular "Normal" category</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sleepdata <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BMI.Category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Normal"</span>, <span class="st">"Normal Weight"</span>) <span class="sc">~</span> <span class="st">"Normal"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">==</span> <span class="st">"Overweight"</span> <span class="sc">~</span> <span class="st">"Overweight"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    BMI.Category <span class="sc">==</span> <span class="st">"Obese"</span> <span class="sc">~</span> <span class="st">"Obese"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As of this point in our cleaning, we feel confident that the data is structured in such a way that analyses can be performed.</p>
 </section>
@@ -1395,10 +1344,10 @@ Attaching package: 'dplyr'</code></pre>
 <h1>Data Visualization and Exploratory Data Analysis</h1>
 <p>We will now begin to create some figures to help visualize the relationships in the dataset. Quality of Sleep is our outcome of interest; we’ll explore the effect each other variable seems to have on it. First, we’ll start with the variables that aren’t health specific. I asked Microsoft Copilot in Precise Mode to generate the base code for some plots that I then changed them to be specific to the dataset/have more visual appeal.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot for Quality of Sleep by Gender</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Gender, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Gender"</span>, <span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot for Quality of Sleep by Gender</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Gender, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Gender"</span>, <span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1406,19 +1355,19 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins for Age in order to create a clean boxplot.</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>AgeGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Age, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"20-30"</span>, <span class="st">"30-40"</span>, <span class="st">"40-50"</span>, <span class="st">"50-60"</span>), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean Quality of Sleep for each Age Group to plot with means for cleaner visuals</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>sleepdata_summary <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(AgeGroup) <span class="sc">%&gt;%</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanQuality =</span> <span class="fu">mean</span>(Quality.of.Sleep, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Mean Quality of Sleep by Age Group with colorblind-friendly palette</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata_summary, <span class="fu">aes</span>(<span class="at">x =</span> AgeGroup, <span class="at">y =</span> MeanQuality, <span class="at">fill =</span> AgeGroup)) <span class="sc">+</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Quality of Sleep by Age Group"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>, <span class="at">y =</span> <span class="st">"Mean Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins for Age in order to create a clean boxplot.</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>AgeGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Age, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"20-30"</span>, <span class="st">"30-40"</span>, <span class="st">"40-50"</span>, <span class="st">"50-60"</span>), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean Quality of Sleep for each Age Group to plot with means for cleaner visuals</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>sleepdata_summary <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(AgeGroup) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanQuality =</span> <span class="fu">mean</span>(Quality.of.Sleep, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Mean Quality of Sleep by Age Group with colorblind-friendly palette</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata_summary, <span class="fu">aes</span>(<span class="at">x =</span> AgeGroup, <span class="at">y =</span> MeanQuality, <span class="at">fill =</span> AgeGroup)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Quality of Sleep by Age Group"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>, <span class="at">y =</span> <span class="st">"Mean Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1426,17 +1375,17 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean Quality of Sleep for each Occupation in order to create a bar plot.</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sleepdata_summary <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Occupation) <span class="sc">%&gt;%</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanQuality =</span> <span class="fu">mean</span>(Quality.of.Sleep, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Mean Quality of Sleep by Occupation with manually specified colors</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata_summary, <span class="fu">aes</span>(<span class="at">x =</span> Occupation, <span class="at">y =</span> MeanQuality, <span class="at">fill =</span> Occupation)) <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">rainbow</span>(<span class="fu">length</span>(<span class="fu">unique</span>(sleepdata_summary<span class="sc">$</span>Occupation)))) <span class="sc">+</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Quality of Sleep by Occupation"</span>, <span class="at">x =</span> <span class="st">"Occupation"</span>, <span class="at">y =</span> <span class="st">"Mean Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean Quality of Sleep for each Occupation in order to create a bar plot.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sleepdata_summary <span class="ot">&lt;-</span> sleepdata <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Occupation) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">MeanQuality =</span> <span class="fu">mean</span>(Quality.of.Sleep, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Mean Quality of Sleep by Occupation with manually specified colors</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata_summary, <span class="fu">aes</span>(<span class="at">x =</span> Occupation, <span class="at">y =</span> MeanQuality, <span class="at">fill =</span> Occupation)) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">rainbow</span>(<span class="fu">length</span>(<span class="fu">unique</span>(sleepdata_summary<span class="sc">$</span>Occupation)))) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Quality of Sleep by Occupation"</span>, <span class="at">x =</span> <span class="st">"Occupation"</span>, <span class="at">y =</span> <span class="st">"Mean Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1447,10 +1396,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>We can see some clear differences in self-reported Quality of Sleep between these different groups already. Females tend to report an average of 1 higher according to the boxplot. The different age groups are similar, but the oldest (50-60) reports the highest quality of sleep by far. Our occupations are a bit all over the place, but Sales Representatives seem to have the worst average scores by far. We’ll now explore Physical Activity and plot it as a predictor for Quality of Sleep. To make it easier to visualize Physical Activity, we’ll create a new variable with categories of Low (0-30 minutes), Medium (30-60), and High (60+). We’ll again use Microsoft Copilot for the basic plot code and modify it to our dataset/preferences.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Physical Activity Level</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Physical.Activity.Level)) <span class="sc">+</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Physical Activity Level"</span>, <span class="at">x =</span> <span class="st">"Physical Activity Level (minutes/day)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Physical Activity Level</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Physical.Activity.Level)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Physical Activity Level"</span>, <span class="at">x =</span> <span class="st">"Physical Activity Level (minutes/day)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1458,13 +1407,13 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>PhysicalActivityGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Physical.Activity.Level, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>))</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Physical Activity Level Group</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> PhysicalActivityGroup, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Physical Activity Level Group"</span>, <span class="at">x =</span> <span class="st">"Physical Activity Level Group"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable for Physical Activity Level groups. Categorizes as "Low", "Medium", or "High"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>PhysicalActivityGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Physical.Activity.Level, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Physical Activity Level Group</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> PhysicalActivityGroup, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Physical Activity Level Group"</span>, <span class="at">x =</span> <span class="st">"Physical Activity Level Group"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1475,10 +1424,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>We can clearly see that Physical Activity level has a positive correlation with Quality of Sleep. We’ll now explore Daily Steps. We can create a new variable with groups according to the guidelines here at <a href="https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500">10,000 steps.org</a>. Nobody in the dataset goes over 10000 steps a day, however, so we won’t see any data for the “Active” or “Highly Active” groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Daily Steps</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Daily.Steps)) <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Daily Steps"</span>, <span class="at">x =</span> <span class="st">"Daily Steps"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Daily Steps</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Daily.Steps)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Daily Steps"</span>, <span class="at">x =</span> <span class="st">"Daily Steps"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1486,16 +1435,16 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable for Daily Steps groups based off of 10,000 steps.org categories</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>StepsGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Daily.Steps, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>, <span class="dv">12500</span>, <span class="cn">Inf</span>), </span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Sedentary"</span>, <span class="st">"Low active"</span>, <span class="st">"Somewhat active"</span>, <span class="st">"Active"</span>, <span class="st">"Highly active"</span>), </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Daily Steps Group</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> StepsGroup, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Daily Steps Group"</span>, <span class="at">x =</span> <span class="st">"Daily Steps Group"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable for Daily Steps groups based off of 10,000 steps.org categories</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sleepdata<span class="sc">$</span>StepsGroup <span class="ot">&lt;-</span> <span class="fu">cut</span>(sleepdata<span class="sc">$</span>Daily.Steps, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">5000</span>, <span class="dv">7500</span>, <span class="dv">10000</span>, <span class="dv">12500</span>, <span class="cn">Inf</span>), </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Sedentary"</span>, <span class="st">"Low active"</span>, <span class="st">"Somewhat active"</span>, <span class="st">"Active"</span>, <span class="st">"Highly active"</span>), </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Daily Steps Group</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> StepsGroup, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Daily Steps Group"</span>, <span class="at">x =</span> <span class="st">"Daily Steps Group"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1506,10 +1455,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>Daily Steps don’t have as clear of a trend as Physical Activity did, but there do seem to be fewer low Quality of Sleep scores in higher daily steps groups. Now we’ll explore our Sleep Duration variable. According to <a href="https://www.medicalnewstoday.com/articles/sleep-cycle-stages#sleep-requirements">Medical News Today</a>, adults aged 18-61 are recommended 7+ hours of sleep a night. We’ll keep this in mind when looking at our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Sleep Duration</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Duration)) <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Sleep Duration"</span>, <span class="at">x =</span> <span class="st">"Sleep Duration (hours)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Sleep Duration</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Duration)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Sleep Duration"</span>, <span class="at">x =</span> <span class="st">"Sleep Duration (hours)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1517,11 +1466,11 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Sleep Duration</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Duration, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Sleep Duration"</span>, <span class="at">x =</span> <span class="st">"Sleep Duration (hours)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Sleep Duration</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Duration, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Sleep Duration"</span>, <span class="at">x =</span> <span class="st">"Sleep Duration (hours)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -1535,10 +1484,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>We can see a clear positive correlation between Sleep Duration and Quality of Sleep. This is to be expected. Now we’ll begin plotting our final set of variables. We’ll start with analyzing the new variable we created with categories of Blood Pressure.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for cat_bp</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> cat_bp)) <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of cat_bp"</span>, <span class="at">x =</span> <span class="st">"cat_bp"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for cat_bp</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> cat_bp)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of cat_bp"</span>, <span class="at">x =</span> <span class="st">"cat_bp"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1546,10 +1495,10 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by cat_bp</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> cat_bp, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by cat_bp"</span>, <span class="at">x =</span> <span class="st">"cat_bp"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by cat_bp</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> cat_bp, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by cat_bp"</span>, <span class="at">x =</span> <span class="st">"cat_bp"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1560,10 +1509,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>The boxplots look a bit strange for the Elevated and Normal levels, but we can see on the histogram that it’s likely due to a shortage of data for these categories. We can see, however, that Quality of Sleep does seem to be negatively correlated with increasing stages of hypertension. Now we’ll explore BMI with some plots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for BMI Category</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> BMI.Category)) <span class="sc">+</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of BMI Category"</span>, <span class="at">x =</span> <span class="st">"BMI Category"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for BMI Category</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> BMI.Category)) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of BMI Category"</span>, <span class="at">x =</span> <span class="st">"BMI Category"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1571,10 +1520,10 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by BMI Category</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> BMI.Category, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by BMI Category"</span>, <span class="at">x =</span> <span class="st">"BMI Category"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by BMI Category</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> BMI.Category, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by BMI Category"</span>, <span class="at">x =</span> <span class="st">"BMI Category"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1585,10 +1534,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>We can clearly see that Normal weights seem to have better sleep on average than the obese and overweight categories. However, there are very few in the obese category, so conclusions with that group may not be as supported as others. Now we’ll look at Stress Level.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Stress Level</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Stress.Level)) <span class="sc">+</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Stress Level"</span>, <span class="at">x =</span> <span class="st">"Stress Level (scale: 1-10)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Stress Level</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Stress.Level)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Stress Level"</span>, <span class="at">x =</span> <span class="st">"Stress Level (scale: 1-10)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1596,11 +1545,11 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Stress Level</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Stress.Level, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Stress Level"</span>, <span class="at">x =</span> <span class="st">"Stress Level (scale: 1-10)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Stress Level</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Stress.Level, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Stress Level"</span>, <span class="at">x =</span> <span class="st">"Stress Level (scale: 1-10)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -1614,10 +1563,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>Our scatterplot shows a clear negative correlation between Stress Level and Quality of Sleep. However, this is a subjective scale, so data should be taken with a grain of salt for now. Let’s look at Heart Rate related to Quality of Sleep now.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Heart Rate</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Heart.Rate)) <span class="sc">+</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Heart Rate"</span>, <span class="at">x =</span> <span class="st">"Heart Rate (bpm)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram for Heart Rate</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Heart.Rate)) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Heart Rate"</span>, <span class="at">x =</span> <span class="st">"Heart Rate (bpm)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1625,11 +1574,11 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Heart Rate</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Heart.Rate, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Heart Rate"</span>, <span class="at">x =</span> <span class="st">"Heart Rate (bpm)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot for Quality of Sleep by Heart Rate</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Heart.Rate, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Quality of Sleep by Heart Rate"</span>, <span class="at">x =</span> <span class="st">"Heart Rate (bpm)"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -1643,10 +1592,10 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>This data is a bit difficult to visualize for now but we can see a negative correlation between the two. Healthy Heart Rates tend to differ between each individual, however, so we’ll have to wait until deeper statistical analyses to draw any educated conclusions for now. We’ve finally reached our last variable: Sleep Disorders.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Sleep Disorder</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Disorder)) <span class="sc">+</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of Sleep Disorder"</span>, <span class="at">x =</span> <span class="st">"Sleep Disorder"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for Sleep Disorder</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Disorder)) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bar Plot of Sleep Disorder"</span>, <span class="at">x =</span> <span class="st">"Sleep Disorder"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1654,10 +1603,10 @@ Attaching package: 'dplyr'</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Sleep Disorder</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Disorder, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by Sleep Disorder"</span>, <span class="at">x =</span> <span class="st">"Sleep Disorder"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot for Quality of Sleep by Sleep Disorder</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Sleep.Disorder, <span class="at">y =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box Plot of Quality of Sleep by Sleep Disorder"</span>, <span class="at">x =</span> <span class="st">"Sleep Disorder"</span>, <span class="at">y =</span> <span class="st">"Quality of Sleep"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1669,8 +1618,8 @@ Attaching package: 'dplyr'</code></pre>
 <p>We can see that individuals without a disorder tend to have higher sleep scores than those with Insomnia or Sleep Apnea, which is what we’d expect to see. The dataset also seems to reflect the population accurately, as those without a sleep disorder are more numerous than individuals with one.</p>
 <p>Finally, we’ll save the completely processed data into a new file in the “processed_data” folder.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quickly change gender from a character value to a factor</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(sleepdata<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#quickly change gender from a character value to a factor</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(sleepdata<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
  [11] Male   Male   Male   Male   Male   Male   Female Male   Female Male  
@@ -1712,16 +1661,16 @@ Attaching package: 'dplyr'</code></pre>
 [371] Female Female Female
 Levels: Female Male</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save the processed data separately from the original</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(sleepdata, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"sleepdataprocessed.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save the processed data separately from the original</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(sleepdata, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"sleepdataprocessed.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Distribution of the outcome of interest, Quality of Sleep</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sleep_dis <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sleep_dis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sleep_dis <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sleepdata, <span class="fu">aes</span>(<span class="at">x =</span> Quality.of.Sleep)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sleep_dis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -1732,7 +1681,7 @@ Levels: Female Male</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sleepdata<span class="sc">$</span>Quality.of.Sleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sleepdata<span class="sc">$</span>Quality.of.Sleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   4.000   6.000   7.000   7.308   8.000   9.000 </code></pre>

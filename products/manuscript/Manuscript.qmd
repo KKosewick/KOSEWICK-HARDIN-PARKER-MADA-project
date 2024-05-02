@@ -17,21 +17,21 @@ editor:
 
 # Summary/Abstract (1)
 
-For our project, we obtained a dataset from
-Kaggle.com containing 373 observations of
-13 variables from a study on different factors that may affect sleep
-quality. Variables of interest from the study included physical activity
-level, age, sex, occupation, stress, gender, BMI, blood pressure, and
-sleep duration. In [RStudio](https://posit.co/download/rstudio-desktop/)
-(version 4.3.1), we used a combination of packages to create models
-suitable for answering our primary question: which variables are most
-important for determining an individual's sleep quality and what effect
-do they have? After conducting an exploratory data analysis (EDA) we
-hypothesized that stress, sleep duration, and occupation would have the
-largest impact on sleep quality. We believed that stress and sleep
-quality would be negatively correlated, sleep duration and quality would
-be positively correlated, and that jobs with longer or more variable
-hours would negatively affect sleep quality.
+For our project, we obtained a dataset from Kaggle.com containing 373
+observations of 13 variables from a study on different factors that may
+affect sleep quality. Variables of interest from the study included
+physical activity level, age, sex, occupation, stress, gender, BMI,
+blood pressure, and sleep duration. In
+[RStudio](https://posit.co/download/rstudio-desktop/) (version 4.3.1),
+we used a combination of packages to create models suitable for
+answering our primary question: which variables are most important for
+determining an individual's sleep quality and what effect do they have?
+After conducting an exploratory data analysis (EDA) we hypothesized that
+stress, sleep duration, and occupation would have the largest impact on
+sleep quality. We believed that stress and sleep quality would be
+negatively correlated, sleep duration and quality would be positively
+correlated, and that jobs with longer or more variable hours would
+negatively affect sleep quality.
 
 After creating linear models for each variable's impact on sleep quality
 and fitting a Random Forest model with Cross-Validation to test variable
@@ -108,9 +108,9 @@ with and without insomnia (Alnawwar et. al, 2023). Studies indicate that
 consistent moderate exercise three to four times a week (approximately
 150 minutes total) is the optimal weekly regimen to improve sleep
 quality and reduce stress. We expect to see similar trends with our data
-where increased stress levels negatively impact sleep quality. We expect to see
-a positive association between increasing physical activity levels and
-sleep quality until the point of "too much" activity.
+where increased stress levels negatively impact sleep quality. We expect
+to see a positive association between increasing physical activity
+levels and sleep quality until the point of "too much" activity.
 
 {{< pagebreak >}}
 
@@ -134,7 +134,8 @@ the categorical blood pressure status of a subject based on the
 guidelines](https://www.heart.org/en/health-topics/high-blood-pressure).
 Additionally we created a variable named 'StepsGroup' to determine the
 categorical activity level of subjects in the dataset based on these
-guidelines provided by [10,000 steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
+guidelines provided by [10,000
+steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
 Finally, we created an additional categorical variable called
 'PhysicalActivityGroup' to categorically represent the level of physical
 activity reported by a subject. The levels are differentiated by 30
@@ -291,8 +292,9 @@ category/variable being analyzed. The "model" column identifies the
 predictors used to fit each model. The "statistic" column is a relative
 measure of the strength of the relationship between each predictor and
 sleep quality. The "estimate" column shows the predicted change in sleep
-quality score as a result of each associated
-predictor.](images/table.png)
+quality score as a result of each associated predictor. Each reference
+category that is used for categorical variables is included next to the
+term in parentheses (e.g. Reference: Female).](images/table-01.png)
 
 We believed that stress and sleep quality would be negatively
 correlated, sleep duration and quality would be positively correlated,
@@ -301,8 +303,7 @@ sleep quality. As seen in table 1, we found that all of our assumptions
 were supported. The "intercept" values under the term column represents
 what the expected sleep quality score would be if a continuous predictor
 was at a value of 0. For categorical variables, it represents the
-reference category (e.g. the intercept for the Gender model represents
-the expected sleep quality score for females).
+reference category that the others are being compared to.
 
 ## Machine Learning Models
 
@@ -365,11 +366,12 @@ subjective rating given by each participant in the study; this could
 introduce individual bias to the data and prevent an objective
 evaluation of the effect of these variables. An inherent limitation in
 RF models is difficulty of interpretation; we attempted to minimize this
-by creating easy to read tables and graphs for the results.
-We chose not to split our data into a train/test split due to the small number of observations and presence of rare values in our data. We believe that fitting using CV minimized the downsides of this. Future
-analyses would benefit from more detailed meta data and a better
-understanding of the experimental design that generated our
-observations.
+by creating easy to read tables and graphs for the results. We chose not
+to split our data into a train/test split due to the small number of
+observations and presence of rare values in our data. We believe that
+fitting using CV minimized the downsides of this. Future analyses would
+benefit from more detailed meta data and a better understanding of the
+experimental design that generated our observations.
 
 The strengths of our analysis lie in the easily interpretation of our
 GLMs and the predictive power of an RF model. We were able to clearly
