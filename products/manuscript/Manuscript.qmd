@@ -8,8 +8,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/sleepref2.bib
-csl: ../../assets/apa.csl 
+bibliography: sleepref2.bib
+csl: vancouver.csl
 editor: 
   markdown: 
     wrap: 72
