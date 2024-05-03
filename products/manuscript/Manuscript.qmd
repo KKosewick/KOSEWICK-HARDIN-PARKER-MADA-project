@@ -64,8 +64,8 @@ trend in present in
 our dataset; however, given that most of the observations are of men, we
 expect to see a correlation between lower sleep scores and obesity in
 our data. Furthermore, it has been shown that age and gender have a
-notable effect on sleep quality (Madrid-Valero et al. 2016)[@madrid-valero_age_
-2017]. Women seem to experience a deterioration in sleep quality as they age; 
+notable effect on sleep quality[@madrid-valero_age_2017]. 
+Women seem to experience a deterioration in sleep quality as they age; 
 however,while this trend is still present in men, it is notably less consistent
 and can vary dramatically between individuals. We expect to see similar
 trends in our dataset, but as stated previously, our observations
@@ -73,15 +73,14 @@ contain significantly more men than women. Finally, we wish to test
 whether or not certain occupational industries have different effects on
 sleep quality. It has been shown that managerial positions tend to have
 the worst sleep quality among civilian sector workers while 24 jobs that
-have rotating shifts tend to have the worst sleep quality [@luckhaupt_prevalence
-_2010]. Our dataset contains observations of mostly
-white-collar/service-based jobs, so we expect to find similar trends
-upon analysis.
+have rotating shifts tend to have the worst sleep quality [@luckhaupt_prevalence_2010]. 
+Our dataset contains observations of mostly white-collar/service-based jobs, so 
+we expect to find similar trends upon analysis.
 
 Additionally, based on the findings of Sun et. al that obesity can
 negatively impact sleep quality, we also expect that higher levels of
 blood pressure will result in poorer sleep quality [@sun_poor_2016]. 
-The American SleepFoundation states that both short and long sleep duration 
+The American Sleep Foundation states that both short and long sleep duration 
 increase risk of hypertension in adults [@liu_association_2022]. This draws 
 interesting focus to the circular nature of sleep quality and hypertension. 
 Those with hypertension also face a higher risk of insomnia, a disorder
@@ -89,11 +88,11 @@ affecting the ability to fall asleep, maintain sleep, and sleep without
 continuous disturbance [@liu_association_2022]. Short sleep duration is also
 positively associated with stress level [@noauthor_stress_nodate]. Survey findings
 indicate that the average American sleeps 6.7 hours per night, which is
-well below the minimum recommended duration seven to nine hours (APA,
-2013). Similar to the relationship between hypertension and sleep
-quality, as stress level increases, sleep duration decreases thereby
-causing poorer sleep quality. Poorer sleep quality then leads to higher
-stress, greater risk of hypertension, and shorter sleep duration.
+well below the minimum recommended duration seven to nine hours [@noauthor_stress_nodate]. 
+Similar to the relationship between hypertension and sleep quality, as stress 
+level increases, sleep duration decreases thereby causing poorer sleep quality. 
+Poorer sleep quality then leads to higher stress, greater risk of hypertension, 
+and shorter sleep duration.
 
 Engaging in physical activity has been suggested to improve both sleep
 quality and sleep duration. Regular moderate to intense physical
@@ -137,8 +136,7 @@ categorical activity level of subjects in the dataset based on these
 guidelines provided by [10,000
 steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps
 /#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,
-day%205%20Highly%20active%20is%20more%20than%2012%2C500) [@noauthor_counting_
-nodate].
+day%205%20Highly%20active%20is%20more%20than%2012%2C500) [@noauthor_counting_nodate].
 Finally, we created an additional categorical variable called
 'PhysicalActivityGroup' to categorically represent the level of physical
 activity reported by a subject. The levels are differentiated by 30
