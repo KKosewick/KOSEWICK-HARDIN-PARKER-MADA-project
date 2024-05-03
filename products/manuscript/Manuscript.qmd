@@ -22,7 +22,8 @@ blood pressure, and sleep duration. In
 [RStudio](https://posit.co/download/rstudio-desktop/) (version 4.3.1),
 we used a combination of packages to create models suitable for
 answering our primary question: which variables are most important for
-determining an individual's sleep quality and what effect do they have?
+determining an individual's sleep quality and what effect do they have [@noautho
+r_rstudio_nodate]?
 After conducting an exploratory data analysis (EDA) we hypothesized that
 stress, sleep duration, and occupation would have the largest impact on
 sleep quality. We believed that stress and sleep quality would be
@@ -46,7 +47,8 @@ factors that can impact sleep quality.
 ## Background Information
 
 The data was obtained from kaggle.com at this
-[link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data).
+[link](https://www.kaggle.com/datasets/henryshan/sleep-health-and-lifestyle/data)
+[@noauthor_find_nodate].
 The data contains observations from a study on individuals of varying
 sexes and age regarding their sleep quality and different variables that
 may affect this. We are unsure of where this data set came from and how
@@ -57,34 +59,35 @@ to have an effect on sleep quality.
 
 For instance, in Sun et al. (2015), a sample of Chinese individuals
 showed a correlation between obesity and worsened sleep quality in men
-but not women. We are interested in seeing if this trend in present in
+but not women [@sun_poor_2016]. We are interested in seeing if this 
+trend in present in
 our dataset; however, given that most of the observations are of men, we
 expect to see a correlation between lower sleep scores and obesity in
 our data. Furthermore, it has been shown that age and gender have a
-notable effect on sleep quality (Madrid-Valero et al. 2016). Women seem
-to experience a deterioration in sleep quality as they age; however,
-while this trend is still present in men, it is notably less consistent
+notable effect on sleep quality (Madrid-Valero et al. 2016)[@madrid-valero_age_
+2017]. Women seem to experience a deterioration in sleep quality as they age; 
+however,while this trend is still present in men, it is notably less consistent
 and can vary dramatically between individuals. We expect to see similar
 trends in our dataset, but as stated previously, our observations
 contain significantly more men than women. Finally, we wish to test
 whether or not certain occupational industries have different effects on
 sleep quality. It has been shown that managerial positions tend to have
 the worst sleep quality among civilian sector workers while 24 jobs that
-have rotating shifts tend to have the worst sleep quality (Luckhaupt et
-al. 2010). Our dataset contains observations of mostly
+have rotating shifts tend to have the worst sleep quality [@luckhaupt_prevalence
+_2010]. Our dataset contains observations of mostly
 white-collar/service-based jobs, so we expect to find similar trends
 upon analysis.
 
 Additionally, based on the findings of Sun et. al that obesity can
 negatively impact sleep quality, we also expect that higher levels of
-blood pressure will result in poorer sleep quality. The American Sleep
-Foundation states that both short and long sleep duration increase risk
-of hypertension in adults (Li & Shang, 2021). This draws interesting
-focus to the circular nature of sleep quality and hypertension. Those
-with hypertension also face a higher risk of insomnia, a disorder
+blood pressure will result in poorer sleep quality [@sun_poor_2016]. 
+The American SleepFoundation states that both short and long sleep duration 
+increase risk of hypertension in adults [@liu_association_2022]. This draws 
+interesting focus to the circular nature of sleep quality and hypertension. 
+Those with hypertension also face a higher risk of insomnia, a disorder
 affecting the ability to fall asleep, maintain sleep, and sleep without
-continuous disturbance (Liu et. al, 2022). Short sleep duration is also
-positively associated with stress level (APA, 2013). Survey findings
+continuous disturbance [@liu_association_2022]. Short sleep duration is also
+positively associated with stress level [@noauthor_stress_nodate]. Survey findings
 indicate that the average American sleeps 6.7 hours per night, which is
 well below the minimum recommended duration seven to nine hours (APA,
 2013). Similar to the relationship between hypertension and sleep
@@ -95,13 +98,13 @@ stress, greater risk of hypertension, and shorter sleep duration.
 Engaging in physical activity has been suggested to improve both sleep
 quality and sleep duration. Regular moderate to intense physical
 activity stimulates an increase of melatonin production, a hormone that
-regulates sleep-wake cycles (Alnawwar et. al, 2023). Additionally,
+regulates sleep-wake cycles [@alnawwar_effect_2023]. Additionally,
 moderate to intense exercise has shown to have a positive effect on
-those with insomnia (Alnawwar et. al, 2023). Physical activity also
+those with insomnia [@alnawwar_effect_2023]. Physical activity also
 reduces stress and improves both sleep quality and sleep efficiency
-(Alnawwar et. al, 2023). However, studies also show that frequent
+[@alnawwar_effect_2023]. However, studies also show that frequent
 high-intensity workouts could lead to poorer sleep quality among people
-with and without insomnia (Alnawwar et. al, 2023). Studies indicate that
+with and without insomnia [@alnawwar_effect_2023]. Studies indicate that
 consistent moderate exercise three to four times a week (approximately
 150 minutes total) is the optimal weekly regimen to improve sleep
 quality and reduce stress. We expect to see similar trends with our data
@@ -128,11 +131,14 @@ systolic and diastolic blood pressure measurements from each subject. We
 then chose to add an additional variable, labeled 'cat_bp' to reflect
 the categorical blood pressure status of a subject based on the
 [American Heart Association
-guidelines](https://www.heart.org/en/health-topics/high-blood-pressure).
+guidelines](https://www.heart.org/en/health-topics/high-blood-pressure) [@noauthor_understanding_nodate].
 Additionally we created a variable named 'StepsGroup' to determine the
 categorical activity level of subjects in the dataset based on these
 guidelines provided by [10,000
-steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,day%205%20Highly%20active%20is%20more%20than%2012%2C500)
+steps](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps
+/#:~:text=The%20following%20pedometer%20indices%20have%20been%20developed%20to,
+day%205%20Highly%20active%20is%20more%20than%2012%2C500) [@noauthor_counting_
+nodate].
 Finally, we created an additional categorical variable called
 'PhysicalActivityGroup' to categorically represent the level of physical
 activity reported by a subject. The levels are differentiated by 30
@@ -358,7 +364,7 @@ using our RF model. The variable importance plot we created answers our
 questions about which variables are most important for predicting sleep
 quality. As we can see, sleep duration, stress level, and age were the
 top three predictors for sleep quality in our data. This reflects the
-relationships we saw in our colinearity plot as well as the clear
+relationships we saw in our collinearity plot as well as the clear
 correlations we found between the variables in our EDA. We did not
 expect to see age so high on the list; this could be due to us grouping
 ages together in our EDA and therefore misleading us in our preliminary
